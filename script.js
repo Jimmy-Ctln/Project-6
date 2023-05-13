@@ -1,4 +1,9 @@
+// Recovery class
+
 const gallery = document.querySelector('.gallery');
+
+
+// create a fetch function for works
 
 async function getWorks() {
     
