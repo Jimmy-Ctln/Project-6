@@ -32,6 +32,14 @@ async function getWorks() {
             figureElement.appendChild(imageElement)
             figureElement.appendChild(titleElement)
         }
+
+        const btnObjets = document.querySelector(".btn-objets");
+        btnObjets.addEventListener('click', () => {
+            
+            const filterObject = data.filter(obj => obj.category.name === 'Objets')
+            document.querySelector('.gallery').innerHTML = "";
+            return filterObject;
+        })
     
     } catch(error) {
         console.error("Une erreur s'est produite")
@@ -39,3 +47,14 @@ async function getWorks() {
     
 }
 getWorks();
+
+        
+
+
+
+
+
+
+
+
+
