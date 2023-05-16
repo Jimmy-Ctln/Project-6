@@ -15,22 +15,20 @@ getWorks();
 
 // Once the function is validated.
 getWorks().then(() => {
-  
-    // Recovery class gallery
+  // Recovery class gallery
   const gallery = document.querySelector(".gallery");
   const btnTous = document.querySelector(".btn-tous");
   const btnObjets = document.querySelector(".btn-objets");
-  const btnAppartements = document.querySelector('.btn-appartements');
-  const bntHotelsEtRestaurants = document.querySelector('.btn-hotelsetrestaurants');
+  const btnAppartements = document.querySelector(".btn-appartements");
+  const bntHotelsEtRestaurants = document.querySelector(
+    ".btn-hotelsetrestaurants"
+  );
 
-  
   function generateGallery(data) {
-    
     gallery.innerHTML = "";
 
     // Browse the table data
     for (let i = 0; i < data.length; i++) {
-
       // Creation of figure
       const figureElement = document.createElement("figure");
 
@@ -51,26 +49,27 @@ getWorks().then(() => {
   generateGallery(data);
 
   function filterElement(categoryName) {
-    const filterElement = data.filter(obj => obj.category.name === categoryName);
+    const filterElement = data.filter(
+      (obj) => obj.category.name === categoryName
+    );
     console.log(filterElement);
     gallery.innerHTML = "";
     generateGallery(filterElement);
   }
-  
+
   btnTous.addEventListener("click", () => {
     generateGallery(data);
   });
 
-  btnObjets.addEventListener('click', () => {
-    filterElement('Objets');
+  btnObjets.addEventListener("click", () => {
+    filterElement("Objets");
   });
 
-  btnAppartements.addEventListener('click', () => {
-    filterElement('Appartements');
-  })
+  btnAppartements.addEventListener("click", () => {
+    filterElement("Appartements");
+  });
 
-  bntHotelsEtRestaurants.addEventListener('click', () => {
-    filterElement('Hotels & restaurants')
-  })
-  
+  bntHotelsEtRestaurants.addEventListener("click", () => {
+    filterElement("Hotels & restaurants");
+  });
 });
