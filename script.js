@@ -20,9 +20,7 @@ getWorks().then(() => {
   const btnTous = document.querySelector(".btn-tous");
   const btnObjets = document.querySelector(".btn-objets");
   const btnAppartements = document.querySelector(".btn-appartements");
-  const bntHotelsEtRestaurants = document.querySelector(
-    ".btn-hotelsetrestaurants"
-  );
+  const bntHotelsEtRestaurants = document.querySelector(".btn-hotelsetrestaurants");
 
   function generateGallery(data) {
     gallery.innerHTML = "";

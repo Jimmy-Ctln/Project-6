@@ -126,6 +126,32 @@ li:hover {
 	margin-bottom: 1em;
 }
 
+.connection-form {
+	display: flex;
+	flex-direction: column;
+}
+
+.all-form {
+	text-align: center;
+}
+
+.title-form {
+	margin-bottom: 37px;
+}
+
+.content-txt {
+	font-family: 'Work Sans';
+	color: #3D3D3D;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 16px;
+}
+
+.Forgot-your-password {
+	text-align: center;
+}
+
 .buttons {
 	display: flex;
 	justify-content: center;
