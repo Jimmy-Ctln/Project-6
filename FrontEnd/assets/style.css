@@ -97,7 +97,18 @@ nav li {
 
 li:hover {
 	color: #B1663C;
+	cursor: pointer;
 }
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+a:hover {
+	color: #B1663C;
+}
+
 #introduction {
 	display: flex;
 	align-items: center;
@@ -231,10 +242,44 @@ input[type="submit"]{
 	font-weight: 700;
 	color: white;
 	background-color: #1D6154;
-	margin : 2em auto ;
+	margin : 2em auto;
+	padding: 10px 38px 9px;
 	width: 180px;
 	text-align: center;
 	border-radius: 60px ;
+	border: 1px solid white;
+}
+
+#login-form {
+	width: 50%;
+margin: auto;
+}
+#login-form > * {
+	text-align: center;
+
+}
+#login-form h2{
+	margin-bottom: 20px;
+}
+#login-form form {
+	text-align: left;
+	margin-top:30px;
+	display: flex;
+	flex-direction: column;
+}
+
+#login-form input {
+	height: 50px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+#login-form label {
+	margin: 2em 0 1em 0;
+}
+#login-form textarea {
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
 footer nav ul {
@@ -243,3 +288,9 @@ footer nav ul {
 	margin: 2em
 }
 
+.footer-login {
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	
+}
