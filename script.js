@@ -71,3 +71,4 @@ getWorks().then(() => {
     filterElement("Hotels & restaurants");
   });
 });
+
