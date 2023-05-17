@@ -1,12 +1,15 @@
+const formLog = document.querySelector('form')
+const submit = document.querySelector('.submit')
+const userForm = {};
 
-const email = document.getElementsByName('email')[0];
-const password = document.getElementsByName('password')[0];
 
-
-const user = {
-    email: email,
-    password: password
+function formContent() {
+    const email = formLog.elements['email'].value;
+    const password = formLog.elements['password'].value;
+    userForm.email = email;
+    userForm.password = password;
 }
+// formContent()
 
 // const user = {
 //     email: 'sophie.bluel@test.tld',
@@ -21,11 +24,17 @@ async function fetchUsers() {
             'Content-Type': 'application/json',
             
         },
-        body: JSON.stringify(user),
+        body: JSON.stringify(userForm),
     })
     .then((response) => response.json())
     .then((json) => console.log(json))
 }
-fetchUsers();
+// fetchUsers()
 
+formLog.addEventListener('submit', function(event) {
+    event.preventDefault()
+    formContent()
+    fetchUsers()
+    console.log(userForm)
+})
 
