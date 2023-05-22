@@ -93,6 +93,7 @@ function logout() {
         sessionStorage.removeItem("userId")
         sessionStorage.removeItem("token")
         login.innerHTML="login"
+        location.reload()
     } else {
       window.location.href = "/FrontEnd/login.html"
     }
