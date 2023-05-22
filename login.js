@@ -46,12 +46,10 @@ async function fetchUsers() {
     })
 }
 
-
 formLog.addEventListener('submit', function(event) {
     event.preventDefault()
     formContent()
     fetchUsers()
     console.log(userForm)
 })
-
 

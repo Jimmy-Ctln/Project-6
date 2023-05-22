@@ -72,3 +72,30 @@ getWorks().then(() => {
   });
 });
 
+
+// To connect
+function userLogin() {
+  
+  if(sessionStorage.getItem('userId')) {
+    
+    let login = document.querySelector('.login');
+    login.innerHTML="logout"
+  }
+}
+userLogin()
+
+// To disconnect 
+function logout() {
+  let login = document.querySelector('.login');
+  login.addEventListener('click', () => {
+    
+    if(login.innerHTML="logout") {
+        sessionStorage.removeItem("userId")
+        sessionStorage.removeItem("token")
+        login.innerHTML="login"
+    } else {
+      window.location.href = "/FrontEnd/login.html"
+    }
+  })
+}
+logout()
