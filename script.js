@@ -80,6 +80,9 @@ function userLogin() {
     
     let login = document.querySelector('.login');
     login.innerHTML="logout"
+    let editBar = document.querySelector('.edit_bar')
+    editBar.style.display = 'flex'
+
   }
 }
 userLogin()
@@ -100,3 +103,4 @@ function logout() {
   })
 }
 logout()
+
