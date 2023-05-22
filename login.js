@@ -4,12 +4,13 @@ const userForm = {};
 
 
 function formContent() {
+    
     const email = formLog.elements['email'].value;
     const password = formLog.elements['password'].value;
     userForm.email = email;
     userForm.password = password;
 }
-// formContent()
+
 
 // const user = {
 //     email: 'sophie.bluel@test.tld',
@@ -26,10 +27,25 @@ async function fetchUsers() {
         },
         body: JSON.stringify(userForm),
     })
-    .then((response) => response.json())
-    .then((json) => console.log(json))
+    .then((response) => {
+        if(response.ok) {
+            console.log("Connexion validée")
+            return response.json()
+            
+            .then((data) => {
+                sessionStorage.setItem("userId", data.userId)
+                sessionStorage.setItem("token", data.token)
+                console.log(data)
+                window.location.href = "/FrontEnd/index.html";
+            })
+        } else {
+            console.log("Erreur E-mail/Mot de passe !")
+            alert('Erreur E-mail/Mot de passe !')
+            location.reload()
+        }
+    })
 }
-// fetchUsers()
+
 
 formLog.addEventListener('submit', function(event) {
     event.preventDefault()
@@ -37,4 +53,5 @@ formLog.addEventListener('submit', function(event) {
     fetchUsers()
     console.log(userForm)
 })
+
 
