@@ -82,6 +82,9 @@ function userLogin() {
     login.innerHTML="logout"
     let editBar = document.querySelector('.edit_bar')
     editBar.style.display = 'flex'
+    let filterBtn = document.querySelector('.buttons')
+    filterBtn.style.display='none'
+    edit()
 
   }
 }
@@ -103,4 +106,30 @@ function logout() {
   })
 }
 logout()
+
+function edit() {
+  
+  // Recovering classes
+  const parentEdit = document.querySelectorAll('.parent-edit')
+
+  
+  for (let i = 0; i < parentEdit.length; i++) {
+  
+    let idEdit = 'edit' + i;
+    const divElement = document.createElement('div');
+    divElement.id = idEdit
+    const iconElement = document.createElement('i');
+    iconElement.classList.add('fa-solid', 'fa-pen-to-square');
+    iconElement.style.color = 'black';
+    const paragraphElement = document.createElement('p');
+    paragraphElement.innerText = "modifier";
+    
+    parentEdit[i].appendChild(divElement)
+    divElement.appendChild(iconElement)
+    divElement.appendChild(paragraphElement)
+  }
+
+
+}
+
 

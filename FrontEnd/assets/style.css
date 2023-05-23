@@ -46,7 +46,11 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-/** end reset css**/
+/** end reset css**/ 
+
+.logo_insta {
+	width: 20px;
+}
 
 .edit_bar {
 	display: flex;
@@ -210,6 +214,36 @@ a:hover {
 	font-size: 14px;
 	line-height: 16px;
 }
+
+#edit0 {
+	display: flex;
+	gap: 8px;
+	cursor: pointer;
+	width: 100px;
+	margin-left: 10%;
+	margin-top: 15px;
+}
+
+#edit1 {
+	display: flex;
+	gap: 8px;
+	cursor: pointer;
+	margin-bottom: 19px;
+}
+
+#edit2 {
+	display: flex;
+	gap: 8px;
+	cursor: pointer;
+}
+
+/* .flex-align-center {
+	display: flex;
+	justify-content: center;
+	align-items: baseline;
+	gap: 20px;
+	font-size: 15px;
+} */
 
 .Forgot-your-password {
 	text-align: center;
