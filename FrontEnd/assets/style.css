@@ -62,8 +62,6 @@ table {
 	height: 59px;
 	color: white;
 	background-color: #000000;
-	width : 100vw;
-	margin-left : calc(-1 * ((100vw - 100%) / 2));
 }
 
 .content_bar {
