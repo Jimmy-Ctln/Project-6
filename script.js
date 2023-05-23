@@ -112,7 +112,6 @@ function edit() {
   // Recovering classes
   const parentEdit = document.querySelectorAll('.parent-edit')
 
-  
   for (let i = 0; i < parentEdit.length; i++) {
   
     let idEdit = 'edit' + i;
@@ -129,7 +128,8 @@ function edit() {
     divElement.appendChild(paragraphElement)
   }
 
-
 }
+
+
 
 

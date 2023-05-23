@@ -218,38 +218,46 @@ a:hover {
 	font-size: 14px;
 	line-height: 16px;
 }
+/* 
 
-
-/* .modal-container {
+ .modal-container {
 	position: fixed;
 	top: 0;
 	width: 100vw;
 	height: 100vh;
-} */
+} 
 
-/* .modal-background {
+ .modal-background {
 	position: absolute;
 	width: 100%;
 	height: 100%;
 	background-color: #0000004D;
-} */
+} 
 
-  /* .content-modal {
+ .modal {
 	position: absolute;
 	width: 630px;
 	height: 731px;
 	background-color: #FFFFFF;
 	border-radius: 10px;
 	top: 50%;
-	left: 50px;
+	left: 50%;
 	transform: translate(-50%, -50%);
-	
-}   */
+	max-width: 1140px;
+} */
+
+.content_modal {
+	display: flex;
+	justify-content: center;
+	gap: 20px;
+	margin-top: 60px;
+}
+
 
 .fa-xmark {
 	position: absolute;
 	top: 27px;
-	right: 71px;
+	right: 55px;
 	font-size: 20px;
 }
 
@@ -265,23 +273,26 @@ a:hover {
 #edit0 {
 	display: flex;
 	gap: 8px;
-	cursor: pointer;
 	width: 100px;
 	margin-left: 10%;
 	margin-top: 15px;
 }
 
+#edit0:hover,
+#edit1:hover,
+#edit2:hover {
+	cursor: pointer;
+}
+
 #edit1 {
 	display: flex;
 	gap: 8px;
-	cursor: pointer;
 	margin-bottom: 19px;
 }
 
 #edit2 {
 	display: flex;
 	gap: 8px;
-	cursor: pointer;
 }
 
  .flex-align-center {
