@@ -1,5 +1,7 @@
-const formLog = document.querySelector('form')
-const submit = document.querySelector('.submit')
+const formLog = document.querySelector('form');
+const submit = document.querySelector('.submit');
+let errorMessage = false;
+const delai = 600;
 const userForm = {};
 
 
@@ -39,9 +41,7 @@ async function fetchUsers() {
                 window.location.href = "/FrontEnd/index.html";
             })
         } else {
-            console.log("Erreur E-mail/Mot de passe !")
-            alert('Erreur E-mail/Mot de passe !')
-            location.reload()
+            connectionError() 
         }
     })
 }
@@ -52,4 +52,25 @@ formLog.addEventListener('submit', function(event) {
     fetchUsers()
     console.log(userForm)
 })
+
+function connectionError() {
+
+    if(errorMessage === false) {
+        
+        const submit = document.querySelector('.submit');
+        const divElement = document.createElement('div');
+        const paragraphElement = document.createElement('p');
+        paragraphElement.innerText = "Erreur E-mail/Mot de passe !";
+        paragraphElement.classList.add('error-Login');
+        errorMessage = true;
+    
+        submit.insertAdjacentElement('beforebegin', divElement)
+        divElement.appendChild(paragraphElement)
+
+        setTimeout(function() {
+            location.reload();
+        }, delai);
+    }
+    
+}
 
