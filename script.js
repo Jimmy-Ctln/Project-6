@@ -84,8 +84,7 @@ function userLogin() {
     editBar.style.display = 'flex'
     let filterBtn = document.querySelector('.buttons')
     filterBtn.style.display='none'
-    edit()
-
+    createEdit()
   }
 }
 userLogin()
@@ -107,7 +106,7 @@ function logout() {
 }
 logout()
 
-function edit() {
+function createEdit() {
   
   // Recovering classes
   const parentEdit = document.querySelectorAll('.parent-edit')
@@ -127,6 +126,19 @@ function edit() {
     divElement.appendChild(iconElement)
     divElement.appendChild(paragraphElement)
   }
+
+  const btnModal = document.querySelector('.btn-modal');
+  const divElement = document.createElement('div');
+  divElement.id = 'edit2';
+  const iconElement = document.createElement('i');
+  iconElement.classList.add('fa-solid', 'fa-pen-to-square');
+  iconElement.style.color = 'black';
+  const paragraphElement = document.createElement('p');
+  paragraphElement.innerText = "modifer";
+
+  btnModal.appendChild(divElement);
+  divElement.appendChild(iconElement)
+  divElement.appendChild(paragraphElement)
 
 }
 

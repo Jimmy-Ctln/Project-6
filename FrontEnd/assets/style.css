@@ -278,11 +278,6 @@ a:hover {
 	margin-top: 15px;
 }
 
-#edit0:hover,
-#edit1:hover,
-#edit2:hover {
-	cursor: pointer;
-}
 
 #edit1 {
 	display: flex;
@@ -293,15 +288,26 @@ a:hover {
 #edit2 {
 	display: flex;
 	gap: 8px;
+	margin-bottom: 51px;
 }
 
- .flex-align-center {
+#edit0:hover,
+#edit1:hover {
+	cursor: pointer;
+}
+
+#edit2:hover {
+	cursor: pointer;
+}
+
+.btn-modal {
 	display: flex;
 	justify-content: center;
 	align-items: baseline;
 	gap: 20px;
 	font-size: 15px;
 }
+
 
 .error-Login {
 	color: red;
@@ -316,7 +322,7 @@ a:hover {
 	display: flex;
 	justify-content: center;
 	gap: 10px;
-	margin: 51px;
+	margin-bottom: 51px;
 }
 
 
