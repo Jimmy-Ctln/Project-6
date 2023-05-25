@@ -83,14 +83,15 @@ getWorks().then(() => {
     for (let i = 0; i < data.length; i++) {
       // Creation of figure
       const figureElement = document.createElement("figure");
+      figureElement.classList.add('figure-modal');
 
       // Creation of img
       const imageElement = document.createElement("img");
       imageElement.classList.add('img-galery')
       imageElement.src = data[i].imageUrl;
 
-      // const iconElement = document.createElement('i');
-      // iconElement.classList.add('fa-solid', 'fa-trash-can');
+      const iconElement = document.createElement('i');
+      iconElement.classList.add('fa-solid', 'fa-trash-can');
 
       // Creation of title
       const paragraphElement = document.createElement("p");
@@ -99,7 +100,7 @@ getWorks().then(() => {
       // To display the elements
       galleryModal.appendChild(figureElement);
       figureElement.appendChild(imageElement);
-      // figureElement.appendChild(iconElement)
+      figureElement.appendChild(iconElement)
       figureElement.appendChild(paragraphElement);
     }
   }

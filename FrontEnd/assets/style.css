@@ -287,14 +287,24 @@ body.modal-open {
 	font-size: 20px;
 }
 
-/* .img-galery {
+.figure-modal {
 	position: relative;
-} */
+}
 
 .fa-trash-can {
 	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	right: 6px;
+	top: 6px;
+	font-size: 9px;
+	color: white;
+	background-color: #000000;
+	border-radius: 2px;
+	height: 17px;
+	width: 17px;
 	
-
 }
 
 .fa-xmark:hover {
