@@ -219,6 +219,9 @@ a:hover {
 	line-height: 16px;
 }
 
+body.modal-open {
+	overflow: hidden;
+}
 
  .modal-container {
 	display: none;
@@ -258,11 +261,40 @@ a:hover {
 	margin-top: 60px;
 }
 
+.grid-modal {
+	display: flex;
+	justify-content: center;
+
+}
+
+.gallery_modal {
+	display: grid;
+	width: 70%;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	grid-column-gap: 7px;
+	grid-row-gap: 8.03px;
+	margin-top: 46px;
+}
+
+.gallery_modal img {
+	width: 100%;
+}
+
 .fa-xmark {
 	position: absolute;
 	top: 27px;
 	right: 55px;
 	font-size: 20px;
+}
+
+/* .img-galery {
+	position: relative;
+} */
+
+.fa-trash-can {
+	position: absolute;
+	
+
 }
 
 .fa-xmark:hover {
@@ -277,6 +309,48 @@ a:hover {
 	line-height: 30px;
 	text-align: center;
 }
+
+.modal-bar {
+	position: absolute;
+	width: 420px;
+	border: 1px solid #B3B3B3;
+	bottom: 155px;
+	left: 100px;
+}
+
+.footer_modal {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 23px;
+	margin-top: 80px;
+}
+
+.btn-add-photo {
+	padding: 10px 49px 9px 49px;
+	border-radius: 69px;
+	background-color: #1D6154;
+	color: white;
+	font-family: 'Syne';
+	font-size: 14px;
+	border-style: none;
+}
+
+.btn-add-photo:hover {
+	cursor: pointer;
+}
+
+.delete-gallery {
+	font-family: 'Syne';
+	line-height: 17px;
+	color: #D65353;
+}
+
+.delete-gallery:hover {
+	cursor: pointer;
+}
+
 
 #edit0 {
 	display: flex;
