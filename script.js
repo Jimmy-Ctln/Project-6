@@ -72,6 +72,39 @@ getWorks().then(() => {
   });
 });
 
+getWorks().then(() => {
+
+  const galleryModal = document.querySelector('.gallery_modal');
+  
+  function generateGalleryModal(data) {
+    galleryModal.innerHTML = "";
+
+    // Browse the table data
+    for (let i = 0; i < data.length; i++) {
+      // Creation of figure
+      const figureElement = document.createElement("figure");
+
+      // Creation of img
+      const imageElement = document.createElement("img");
+      imageElement.classList.add('img-galery')
+      imageElement.src = data[i].imageUrl;
+
+      // const iconElement = document.createElement('i');
+      // iconElement.classList.add('fa-solid', 'fa-trash-can');
+
+      // Creation of title
+      const paragraphElement = document.createElement("p");
+      paragraphElement.innerText = "éditer";
+
+      // To display the elements
+      galleryModal.appendChild(figureElement);
+      figureElement.appendChild(imageElement);
+      // figureElement.appendChild(iconElement)
+      figureElement.appendChild(paragraphElement);
+    }
+  }
+  generateGalleryModal(data);
+})
 
 // To connect
 function userLogin() {
@@ -147,9 +180,20 @@ function createEdit() {
 const modalContainer = document.querySelector('.modal-container');
 const modalTriggers = document.querySelectorAll('.modal-trigger');
 
-modalTriggers.forEach(trigger => trigger.addEventListener('click', toggleModal))
+modalTriggers.forEach(trigger => trigger.addEventListener('click', function() {
+  toggleModal(),
+  deactivateHomePage();
+}));
 
 function toggleModal() {
   modalContainer.classList.toggle("active")
+}
+
+
+// Desactivate home-page for modal
+const body = document.querySelector('body');
+
+function deactivateHomePage() {
+  body.classList.toggle('modal-open');
 }
 
