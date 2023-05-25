@@ -135,6 +135,7 @@ function createEdit() {
   iconElement.style.color = 'black';
   const paragraphElement = document.createElement('p');
   paragraphElement.innerText = "modifer";
+  paragraphElement.classList.add('modal-trigger');
 
   btnModal.appendChild(divElement);
   divElement.appendChild(iconElement)
@@ -142,6 +143,13 @@ function createEdit() {
 
 }
 
+// Open/Close modal
+const modalContainer = document.querySelector('.modal-container');
+const modalTriggers = document.querySelectorAll('.modal-trigger');
 
+modalTriggers.forEach(trigger => trigger.addEventListener('click', toggleModal))
 
+function toggleModal() {
+  modalContainer.classList.toggle("active")
+}
 

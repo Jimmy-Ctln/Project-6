@@ -218,14 +218,19 @@ a:hover {
 	font-size: 14px;
 	line-height: 16px;
 }
-/* 
+
 
  .modal-container {
+	display: none;
 	position: fixed;
 	top: 0;
 	width: 100vw;
 	height: 100vh;
-} 
+}
+
+.modal-container.active {
+	display: block;
+}
 
  .modal-background {
 	position: absolute;
@@ -244,21 +249,24 @@ a:hover {
 	left: 50%;
 	transform: translate(-50%, -50%);
 	max-width: 1140px;
-} */
-/* 
+} 
+
 .content_modal {
 	display: flex;
 	justify-content: center;
 	gap: 20px;
 	margin-top: 60px;
-} */
+}
 
-/* 
 .fa-xmark {
 	position: absolute;
 	top: 27px;
 	right: 55px;
 	font-size: 20px;
+}
+
+.fa-xmark:hover {
+	cursor: pointer;
 }
 
 .title_modal {
@@ -268,7 +276,7 @@ a:hover {
 	font-size: 26px;
 	line-height: 30px;
 	text-align: center;
-} */
+}
 
 #edit0 {
 	display: flex;
