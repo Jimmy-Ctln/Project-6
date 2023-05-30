@@ -1,4 +1,5 @@
 let data;
+let token = sessionStorage.getItem('token');
 
 // create a fetch function for works
 async function getWorks() {
@@ -72,6 +73,7 @@ getWorks().then(() => {
   });
 });
 
+// For modal
 getWorks().then(() => {
 
   const galleryModal = document.querySelector('.gallery_modal');
@@ -81,10 +83,13 @@ getWorks().then(() => {
 
     // Browse the table data
     for (let i = 0; i < data.length; i++) {
+
+      
       // Creation of figure
       const figureElement = document.createElement("figure");
       figureElement.classList.add('figure-modal');
-
+      figureElement.id = data[i].id;
+      
       // Creation of img
       const imageElement = document.createElement("img");
       imageElement.classList.add('img-galery')
@@ -102,10 +107,31 @@ getWorks().then(() => {
       figureElement.appendChild(imageElement);
       figureElement.appendChild(iconElement)
       figureElement.appendChild(paragraphElement);
+
+      iconElement.addEventListener('click', () => {
+        console.log('click' + data[i].id)
+        deleteProject(i)
+      })
     }
   }
   generateGalleryModal(data);
 })
+
+
+function deleteProject(i) {
+  
+  fetch('http://localhost:5678/api/works/'+ data[i].id, {
+
+    method : 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token,
+    }
+
+  })
+
+}
+
 
 // To connect
 function userLogin() {
@@ -183,18 +209,17 @@ const modalTriggers = document.querySelectorAll('.modal-trigger');
 
 modalTriggers.forEach(trigger => trigger.addEventListener('click', function() {
   toggleModal(),
-  deactivateHomePage();
+  desactivateHomePage();
 }));
 
 function toggleModal() {
   modalContainer.classList.toggle("active")
 }
 
-
 // Desactivate home-page for modal
 const body = document.querySelector('body');
 
-function deactivateHomePage() {
+function desactivateHomePage() {
   body.classList.toggle('modal-open');
 }
 

@@ -307,7 +307,9 @@ body.modal-open {
 	
 }
 
-.fa-xmark:hover {
+
+.fa-xmark:hover,
+.fa-trash-can:hover {
 	cursor: pointer;
 }
 

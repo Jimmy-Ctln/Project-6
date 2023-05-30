@@ -1,7 +1,7 @@
 const formLog = document.querySelector('form');
 const submit = document.querySelector('.submit');
 let errorMessage = false;
-const delai = 600;
+const delai = 800;
 const userForm = {};
 
 
@@ -60,7 +60,7 @@ function connectionError() {
         const submit = document.querySelector('.submit');
         const divElement = document.createElement('div');
         const paragraphElement = document.createElement('p');
-        paragraphElement.innerText = "Erreur E-mail/Mot de passe !";
+        paragraphElement.innerText = "Erreur dans l’identifiant ou le mot de passe";
         paragraphElement.classList.add('error-Login');
         errorMessage = true;
     
