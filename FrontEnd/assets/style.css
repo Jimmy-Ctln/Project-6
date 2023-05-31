@@ -337,6 +337,9 @@ body.modal-open {
 	align-items: center;
 	gap: 23px;
 	margin-top: 80px;
+	position: absolute;
+	bottom: 43px;
+	left: 190px;
 }
 
 .btn-add-photo {
@@ -361,6 +364,49 @@ body.modal-open {
 
 .delete-gallery:hover {
 	cursor: pointer;
+}
+
+.fa-arrow-left {
+	position: absolute;
+	font-size: 20px;
+	left: 30px;
+	top: 24px;
+}
+
+.icon-image {
+	display: flex;
+	justify-content: center;
+	margin-top: 28px;
+	font-size: 40px;
+}
+
+.btn-add {
+	
+	padding: 10px 33px 10px 33px;
+    border-radius: 50px;
+    border-style: none;
+    color: #306685;
+    background-color: #CBD6DC;
+	margin-top: 21px;
+}
+
+.div-btn {
+	display: flex;
+	justify-content: center;
+}
+
+.supported-format {
+	text-align: center;
+	margin-top: 7px;
+	font-size: 10px;
+}
+
+
+.rectangle-modal {
+	width: 420px;
+	height: 169px;
+	background-color: #E8F1F6;
+	margin-top: 36px;
 }
 
 
