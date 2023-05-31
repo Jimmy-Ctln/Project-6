@@ -72,8 +72,8 @@ function connectionError() {
         formLog.reset();
         paragraphElement.innerText="";
         errorMessage = false;
-        }, delai);
-    }
+    }, delai);
+}
     
 }
 
