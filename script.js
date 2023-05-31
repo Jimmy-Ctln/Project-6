@@ -1,5 +1,6 @@
 let data;
 let token = sessionStorage.getItem('token');
+let getWorksResult = null;
 
 // create a fetch function for works
 async function getWorks() {
@@ -12,9 +13,15 @@ async function getWorks() {
     console.error("Une erreur s'est produite");
   }
 }
-getWorks();
+
+// Pour stocker le resultat de getWorks
+getWorksResult = getWorks()
+
+console.log(getWorksResult)
 
 // Once the function is validated.
+
+// La je refait appel à la fonction, il ne faut pas
 getWorks().then(() => {
   // Recovery class gallery
   const gallery = document.querySelector(".gallery");
@@ -78,13 +85,12 @@ getWorks().then(() => {
 
   const galleryModal = document.querySelector('.gallery_modal');
   
-  function generateGalleryModal(data) {
-    galleryModal.innerHTML = "";
+  // function generateGalleryModal(data) {
+  //   galleryModal.innerHTML = "";
 
     // Browse the table data
     for (let i = 0; i < data.length; i++) {
 
-      
       // Creation of figure
       const figureElement = document.createElement("figure");
       figureElement.classList.add('figure-modal');
@@ -107,16 +113,18 @@ getWorks().then(() => {
       figureElement.appendChild(imageElement);
       figureElement.appendChild(iconElement)
       figureElement.appendChild(paragraphElement);
-
-      iconElement.addEventListener('click', () => {
+      
+      iconElement.addEventListener('click', function() {
         console.log('click' + data[i].id)
-        deleteProject(i)
+        deleteProject(i);
       })
     }
-  }
-  generateGalleryModal(data);
+  // }
+  // generateGalleryModal(data);
+  
 })
 
+// delete project modal
 
 function deleteProject(i) {
   
@@ -127,13 +135,18 @@ function deleteProject(i) {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + token,
     }
-
   })
-
+  .then(response => {
+    if (response.ok) {
+      console.log('Projet supprimé !')
+    } else {
+      console.log('Projet non supprimé')
+    }
+  })
 }
 
 
-// To connect
+// change for connect
 function userLogin() {
   
   if(sessionStorage.getItem('userId')) {
@@ -149,7 +162,7 @@ function userLogin() {
 }
 userLogin()
 
-// To disconnect 
+// change for disconnect 
 function logout() {
   let login = document.querySelector('.login');
   login.addEventListener('click', () => {
@@ -166,6 +179,7 @@ function logout() {
 }
 logout()
 
+// adding "modifier"
 function createEdit() {
   
   // Recovering classes
@@ -223,3 +237,51 @@ function desactivateHomePage() {
   body.classList.toggle('modal-open');
 }
 
+
+// for adding project
+
+  const addPhoto = document.querySelector('.btn-add-photo');
+
+  addPhoto.addEventListener('click', () => {
+    addProject()
+  })
+
+  function addProject() {
+    
+    const contentModal = document.querySelector('.content_modal');
+    const gridModal = document.querySelector('.grid-modal');
+    const titleModal = document.querySelector('.title_modal');
+    const deleteGallery = document.querySelector('.delete-gallery');
+
+    titleModal.innerText = 'Ajout photo';
+    gridModal.innerHTML="";
+    
+    const divElement = document.createElement('div');
+    divElement.classList.add('rectangle-modal')
+    
+    const iconArrowElement = document.createElement('i');
+    iconArrowElement.classList.add('fa-solid', 'fa-regular', 'fa-arrow-left');
+    iconArrowElement.style.color = 'black';
+    
+    const iconImageElement = document.createElement('i');
+    iconImageElement.classList.add('fa-regular', 'fa-image', 'icon-image');
+
+    const divBtn = document.createElement('div');
+    divBtn.classList.add('div-btn')
+    const btnAddPhoto = document.createElement('button');
+    btnAddPhoto.innerText = '+ Ajouter photo';
+    btnAddPhoto.classList.add('btn-add');
+
+    const paragraphElement = document.createElement('p');
+    paragraphElement.innerText = "jpg, png : 4mo max";
+    paragraphElement.classList.add('supported-format')
+
+    deleteGallery.remove('p');
+
+    contentModal.appendChild(iconArrowElement);
+    gridModal.appendChild(divElement);
+    divElement.appendChild(iconImageElement)
+    divElement.appendChild(divBtn);
+    divBtn.appendChild(btnAddPhoto);
+    divElement.appendChild(paragraphElement)
+  }
