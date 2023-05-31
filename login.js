@@ -68,7 +68,11 @@ function connectionError() {
         divElement.appendChild(paragraphElement)
 
         setTimeout(function() {
-            location.reload();
+            
+        formLog.reset();
+        paragraphElement.innerText="";
+        errorMessage = false;
+        
         }, delai);
     }
     
