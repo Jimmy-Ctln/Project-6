@@ -48,6 +48,19 @@ table {
 }
 /** end reset css**/ 
 
+.style-btn {
+	font-family: 'Syne';
+	font-weight: 700;
+	color: white;
+	background-color: #1D6154;
+	margin : 2em auto;
+	padding: 10px 38px 9px;
+	width: 180px;
+	text-align: center;
+	border-radius: 60px ;
+	border: 1px solid white;
+}
+
 .logo_insta {
 	width: 20px;
 }
@@ -449,6 +462,45 @@ body.modal-open {
 }
 
 
+
+/* form adding project */
+.positioning-form {
+	display: flex;
+	justify-content: center;
+	margin-top: 30px;
+}
+
+#form-add-project {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.bloc-form {
+	height: 41px;
+    border: none;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+    width: 420px;
+	margin-top: 10px;
+}
+
+.category {
+	margin-top: 47px;
+}
+
+.confirm {
+	font-family: 'Syne';
+	font-weight: 700;
+	color: white;
+	background-color: #A7A7A7;
+	padding: 10px 38px 9px;
+	margin : 145px auto;
+	width: 180px;
+	text-align: center;
+	border-radius: 60px ;
+	border: 1px solid white;
+}
+
 .error-Login {
 	color: red;
 	font-weight: 700;
@@ -537,19 +589,6 @@ margin: auto;
 #login-form textarea {
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-}
-
-input[type="submit"]{
-	font-family: 'Syne';
-	font-weight: 700;
-	color: white;
-	background-color: #1D6154;
-	margin : 2em auto;
-	padding: 10px 38px 9px;
-	width: 180px;
-	text-align: center;
-	border-radius: 60px ;
-	border: 1px solid white;
 }
 
 footer {

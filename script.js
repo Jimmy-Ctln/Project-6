@@ -273,10 +273,10 @@ function desactivateHomePage() {
 // for adding project
 
 
-  const addPhoto = document.querySelector('.btn-add-photo');
+  const btnAddPhoto = document.querySelector('.btn-add-photo');
 
 
-  addPhoto.addEventListener('click', () => {
+  btnAddPhoto.addEventListener('click', () => {
     addProject()
   })
 
@@ -287,6 +287,7 @@ function desactivateHomePage() {
     const gridModal = document.querySelector('.grid-modal');
     const titleModal = document.querySelector('.title_modal');
     const deleteGallery = document.querySelector('.delete-gallery');
+    const modal = document.querySelector('.modal');
 
 
     titleModal.innerText = 'Ajout photo';
@@ -314,8 +315,22 @@ function desactivateHomePage() {
     paragraphElement.innerText = "jpg, png : 4mo max";
     paragraphElement.classList.add('supported-format')
 
-
-    deleteGallery.remove('p');
+    const divForm = document.createElement('div');
+    divForm.classList.add('positioning-form')
+    const formHTML = `
+    <form id="form-add-project" action="#" method="post">
+                <label for="title">Titre</label>
+                <input class="bloc-form" type="text" name="title-form" id="title-form">
+                
+                <label class="category" for="Category">Catégorie</label>
+                <input class="bloc-form" type="select" name="category" id="category">
+                
+                <input class="confirm" type="submit" value="Valider">
+    </form>
+    `
+    
+    const footerModal = document.querySelector('.footer_modal');
+    footerModal.remove('div');
 
 
     contentModal.appendChild(iconArrowElement);
@@ -324,7 +339,20 @@ function desactivateHomePage() {
     divElement.appendChild(divBtn);
     divBtn.appendChild(btnAddPhoto);
     divElement.appendChild(paragraphElement)
+    divForm.innerHTML = formHTML;
+    modal.appendChild(divForm)
+
   }
 
 
 
+{/* <section id="login-form">
+            <form id="form-log" action="#" method="post">
+                <label for="E-mail">E-mail</label>
+                <input type="email" name="email" id="email">
+                
+                <label for="Mot-de-passe">Mot-de-passe</label>
+                <input type="password" name="password" id="password">
+                <input class="submit" type="submit" value="Envoyer">
+            </form>
+	    </section> */}
