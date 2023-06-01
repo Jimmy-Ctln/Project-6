@@ -365,6 +365,7 @@ body.modal-open {
 	border-style: none;
 }
 
+
 .btn-add-photo:hover {
 	cursor: pointer;
 }
@@ -412,6 +413,16 @@ body.modal-open {
 	text-align: center;
 	margin-top: 7px;
 	font-size: 10px;
+}
+
+#selectedFile {
+	display: flex;
+	justify-content: center;
+}
+
+.image-selected-element {
+	width: 30%;
+	height: auto;
 }
 
 

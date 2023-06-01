@@ -153,16 +153,7 @@ function deleteProject(i) {
       'Authorization': 'Bearer ' + token,
     }
   })
-  .then(response => {
-    if (response.ok) {
-      console.log('Projet supprimé !')
-    } else {
-      console.log('Projet non supprimé')
-    }
-  })
 }
-
-
 
 
 // change for connect
@@ -268,8 +259,6 @@ function desactivateHomePage() {
 }
 
 
-
-
 // for adding project
 
 
@@ -286,7 +275,6 @@ function desactivateHomePage() {
     const contentModal = document.querySelector('.content_modal');
     const gridModal = document.querySelector('.grid-modal');
     const titleModal = document.querySelector('.title_modal');
-    const deleteGallery = document.querySelector('.delete-gallery');
     const modal = document.querySelector('.modal');
 
 
@@ -309,7 +297,39 @@ function desactivateHomePage() {
     const btnAddPhoto = document.createElement('button');
     btnAddPhoto.innerText = '+ Ajouter photo';
     btnAddPhoto.classList.add('btn-add');
+    const inputFile = document.createElement('input')
+    inputFile.setAttribute('type', 'file');
+    inputFile.style.display = 'none'
 
+    btnAddPhoto.addEventListener('click', () => {
+      inputFile.click();
+    })
+    
+    
+    const divImageElement = document.createElement('div');
+    divImageElement.id = 'selectedFile'
+    divElement.appendChild(divImageElement)
+    const imageSelectedElement = document.createElement('img');
+    imageSelectedElement.classList.add('image-selected-element')
+    divImageElement.appendChild(imageSelectedElement);
+
+    inputFile.addEventListener('change',() => {
+      
+      const selectedFile = inputFile.files[0];
+      console.log(selectedFile);
+      const reader = new FileReader();
+
+      reader.onload = function (event) {
+        const content = event.target.result;
+        imageSelectedElement.src = content;
+      };
+
+      reader.readAsDataURL(selectedFile)
+
+      iconImageElement.remove('i');
+      divBtn.remove('div');
+      paragraphElement.remove('p');
+    })
 
     const paragraphElement = document.createElement('p');
     paragraphElement.innerText = "jpg, png : 4mo max";
@@ -342,11 +362,13 @@ function desactivateHomePage() {
     divElement.appendChild(iconImageElement)
     divElement.appendChild(divBtn);
     divBtn.appendChild(btnAddPhoto);
+    divBtn.appendChild(inputFile)
     divElement.appendChild(paragraphElement)
     divForm.innerHTML = formHTML;
     modal.appendChild(divForm)
 
   }
+
   
   async function fetchCategory() {
     
@@ -370,10 +392,3 @@ function desactivateHomePage() {
       console.log('erreur lors de la récupération des catégories')
     }
   }
-
-  
-  // Quand mon code est dans le fichier html, ça fonctionne mais là le problème vient du faite que l'id est créer dynamiquement
-  // avec js et donc ça ne fonctionne pas
-  
-  
-
