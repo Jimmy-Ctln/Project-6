@@ -323,7 +323,8 @@ function desactivateHomePage() {
                 <input class="bloc-form" type="text" name="title-form" id="title-form">
                 
                 <label class="category" for="Category">Catégorie</label>
-                <input class="bloc-form" type="select" name="category" id="category">
+                <select class="bloc-form" id="category-api"></select>
+
                 
                 <input class="confirm" type="submit" value="Valider">
     </form>
@@ -331,6 +332,9 @@ function desactivateHomePage() {
     
     const footerModal = document.querySelector('.footer_modal');
     footerModal.remove('div');
+
+    // Pour faire appel à l'api
+    fetchCategory()
 
 
     contentModal.appendChild(iconArrowElement);
@@ -343,16 +347,33 @@ function desactivateHomePage() {
     modal.appendChild(divForm)
 
   }
+  
+  async function fetchCategory() {
+    
+    try {
+      
+      const category = await fetch('http://localhost:5678/api/categories');
+      let data = await category.json();
+      
+      data.forEach(category => {
 
+        const option = document.createElement('option');
+        option.value = category.id;
+        option.textContent = category.name;
+        
+        const categoryApi = document.querySelector('#category-api');
+        categoryApi.appendChild(option)
+  
+      })
+      
+    } catch {
+      console.log('erreur lors de la récupération des catégories')
+    }
+  }
 
+  
+  // Quand mon code est dans le fichier html, ça fonctionne mais là le problème vient du faite que l'id est créer dynamiquement
+  // avec js et donc ça ne fonctionne pas
+  
+  
 
-{/* <section id="login-form">
-            <form id="form-log" action="#" method="post">
-                <label for="E-mail">E-mail</label>
-                <input type="email" name="email" id="email">
-                
-                <label for="Mot-de-passe">Mot-de-passe</label>
-                <input type="password" name="password" id="password">
-                <input class="submit" type="submit" value="Envoyer">
-            </form>
-	    </section> */}
