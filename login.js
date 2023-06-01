@@ -57,7 +57,7 @@ function connectionError() {
 
     if(errorMessage === false) {
         
-        const submit = document.querySelector('.submit');
+        const submit = document.querySelector('.style-btn');
         const divElement = document.createElement('div');
         const paragraphElement = document.createElement('p');
         paragraphElement.innerText = "Erreur dans l’identifiant ou le mot de passe";
@@ -70,10 +70,9 @@ function connectionError() {
         setTimeout(function() {
             
         formLog.reset();
-        paragraphElement.innerText="";
         errorMessage = false;
-    }, delai);
-}
+        paragraphElement.innerText="";
+        }, delai);
+    }
     
 }
-
