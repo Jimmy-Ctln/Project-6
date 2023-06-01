@@ -1,5 +1,4 @@
 const formLog = document.querySelector('form');
-const submit = document.querySelector('.submit');
 let errorMessage = false;
 const delai = 800;
 const userForm = {};
