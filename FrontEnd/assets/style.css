@@ -376,7 +376,8 @@ body.modal-open {
 	color: #D65353;
 }
 
-.delete-gallery:hover {
+.delete-gallery:hover,
+.fa-arrow-left:hover {
 	cursor: pointer;
 }
 

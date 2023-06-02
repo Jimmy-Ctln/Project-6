@@ -3,11 +3,13 @@ import { triggerModal } from "./modal.js";
 import { addNewProjectFromModal } from "./modal.js";
 import { fetchCategory } from "./modal.js";
 
-let data;
+
+
 let getWorksResult = null;
 
+
 // create a fetch function for works
-async function getWorks() {
+async function getWorks(data) {
   try {
     // Recovery of the api
     const fetchWorks = await fetch("http://localhost:5678/api/works");
@@ -19,6 +21,8 @@ async function getWorks() {
 }
 
 getWorksResult = getWorks();
+export { getWorksResult }
+
 
 getWorksResult.then((data) => {
   // Recovery class gallery
@@ -84,6 +88,7 @@ getWorksResult.then((data) => {
 getWorksResult.then((data) => {
   // Function to generate the modal gallery (from modal.js)
   generateGaleryModal(data);
+
 });
 
 // change for connect
@@ -156,9 +161,9 @@ triggerModal();
 
 // for adding project
 
-const btnAddPhoto = document.querySelector(".btn-add-photo");
 
-btnAddPhoto.addEventListener("click", () => {
-  addNewProjectFromModal();
-  fetchCategory();
-});
+
+
+
+
+

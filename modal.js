@@ -1,6 +1,9 @@
+import { getWorksResult } from "./script.js";
+
 // Function to generate the modal gallery on the main page
 
-export function generateGaleryModal(data) {
+export function generateGaleryModal() {
+  getWorksResult.then((data) => {
   const galleryModal = document.querySelector(".gallery_modal");
 
   // Browse the table data
@@ -30,21 +33,22 @@ export function generateGaleryModal(data) {
 
     iconElement.addEventListener("click", function () {
       console.log("click" + data[i].id);
-      deleteProject(i);
+      deleteProject(data[i].id);
     });
   }
+});
+}
 
-  function deleteProject(i) {
-    let token = sessionStorage.getItem("token");
+function deleteProject(id) {
+  let token = sessionStorage.getItem("token");
 
-    fetch("http://localhost:5678/api/works/" + data[i].id, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    });
-  }
+  fetch("http://localhost:5678/api/works/" + id, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  });
 }
 
 // Open/Close modal
@@ -83,10 +87,18 @@ export function addNewProjectFromModal() {
   const divElement = document.createElement("div");
   divElement.classList.add("rectangle-modal");
 
+  
   const iconArrowElement = document.createElement("i");
   iconArrowElement.classList.add("fa-solid", "fa-regular", "fa-arrow-left");
   iconArrowElement.style.color = "black";
 
+  iconArrowElement.addEventListener('click', function() {
+    modalBack();
+    generateGaleryModal();
+    clickBtnAddPhoto()
+  })
+
+  
   const iconImageElement = document.createElement("i");
   iconImageElement.classList.add("fa-regular", "fa-image", "icon-image");
 
@@ -135,14 +147,14 @@ export function addNewProjectFromModal() {
   divForm.classList.add("positioning-form");
   const formHTML = `
     <form id="form-add-project" action="#" method="post">
-                <label for="title">Titre</label>
-                <input class="bloc-form" type="text" name="title-form" id="title-form">
-                
-                <label class="category" for="Category">Catégorie</label>
-                <select class="bloc-form" id="category-api"></select>
+        <label for="title">Titre</label>
+        <input class="bloc-form" type="text" name="title-form" id="title-form">
+        
+        <label class="category" for="Category">Catégorie</label>
+        <select class="bloc-form" id="category-api"></select>
 
-                
-                <input class="confirm" type="submit" value="Valider">
+        
+        <input class="confirm" type="submit" value="Valider">
     </form>
     `;
 
@@ -158,7 +170,39 @@ export function addNewProjectFromModal() {
   divElement.appendChild(paragraphElement);
   divForm.innerHTML = formHTML;
   modal.appendChild(divForm);
+ 
 }
+
+
+export function modalBack() {
+  
+  const modal = document.querySelector('.modal');
+
+  modal.innerHTML = ''
+  modal.innerHTML = `
+  <div class="content_modal">
+    <h3 class="title_modal">Galerie photo</h3>
+    <i class="fa-solid fa-xmark modal-trigger"></i>
+  </div>
+  <div class="grid-modal">
+    <div class="gallery_modal"></div>
+  </div>
+  <div class="modal-bar"></div>
+  <div class="footer_modal">
+    <button class="btn-add-photo">Ajouter une photo</button>
+    <p class="delete-gallery">Supprimer la galerie</p>
+  </div>`
+  
+}
+
+const formAddNewProject = document.getElementById('form-add-project');
+//  == null
+
+// formAddNewProject.addEventListener('submit', function(event) {
+//   event.preventDefault()
+//   formContent()
+//   fetchFormNewProject()
+// })
 
 export async function fetchCategory() {
   try {
@@ -177,3 +221,55 @@ export async function fetchCategory() {
     console.log("erreur lors de la récupération des catégories");
   }
 }
+
+
+function formContent() {
+
+  const formAddNewProject = document.getElementById('form-add-project');
+  
+  
+  const newProjectForm = {};
+  
+  const titleForm = formAddNewProject.elements['title-form'].value;
+  const categoryForm = formAddNewProject.elements['category-api'].value;
+  
+  newProjectForm.title = titleForm;
+  newProjectForm.name = categoryForm;
+}
+
+
+// function for send new project with api
+async function fetchFormNewProject() {
+
+  const fetchNewProject = await fetch('http://localhost:5678/api/categories', {
+
+    method: 'POST',
+    header: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(newProjectForm),
+  })
+  
+  
+}
+
+function sendNewProject() {
+ 
+  const formAddNewProject = document.getElementById('form-add-project');
+      
+}
+sendNewProject()
+
+
+// Click on the button to generate the modal page + api call
+function clickBtnAddPhoto() {
+  
+  const btnAddPhoto = document.querySelector(".btn-add-photo");
+  
+  btnAddPhoto.addEventListener("click", () => {
+    addNewProjectFromModal();
+    fetchCategory();
+    triggerModal()
+  });
+}
+clickBtnAddPhoto()
