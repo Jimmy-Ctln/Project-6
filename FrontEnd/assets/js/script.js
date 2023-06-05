@@ -1,7 +1,5 @@
 import { generateGaleryModal } from "./modal.js";
 import { triggerModal } from "./modal.js";
-import { addNewProjectFromModal } from "./modal.js";
-import { fetchCategory } from "./modal.js";
 
 
 
@@ -30,9 +28,7 @@ getWorksResult.then((data) => {
   const btnTous = document.querySelector(".btn-tous");
   const btnObjets = document.querySelector(".btn-objets");
   const btnAppartements = document.querySelector(".btn-appartements");
-  const bntHotelsEtRestaurants = document.querySelector(
-    ".btn-hotelsetrestaurants"
-  );
+  const bntHotelsEtRestaurants = document.querySelector(".btn-hotelsetrestaurants");
 
   function generateGallery(data) {
     gallery.innerHTML = "";

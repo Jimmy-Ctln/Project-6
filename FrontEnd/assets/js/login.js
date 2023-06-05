@@ -37,7 +37,7 @@ async function fetchUsers() {
                 sessionStorage.setItem("userId", data.userId)
                 sessionStorage.setItem("token", data.token)
                 console.log(data)
-                window.location.href = "/FrontEnd/index.html";
+                window.location.href = "./index.html";
             })
         } else {
             connectionError() 

@@ -340,7 +340,7 @@ body.modal-open {
 	width: 420px;
 	border: 1px solid #B3B3B3;
 	bottom: 155px;
-	left: 100px;
+	left: 104px;
 }
 
 .footer_modal {
@@ -352,7 +352,7 @@ body.modal-open {
 	margin-top: 80px;
 	position: absolute;
 	bottom: 43px;
-	left: 190px;
+	left: 197px;
 }
 
 .btn-add-photo {
@@ -506,7 +506,7 @@ body.modal-open {
 	color: white;
 	background-color: #A7A7A7;
 	padding: 10px 38px 9px;
-	margin : 124px auto;
+	margin : 124px 92px;
 	width: 237px;
 	text-align: center;
 	border-radius: 60px ;

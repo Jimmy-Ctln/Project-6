@@ -49,6 +49,8 @@ function deleteProject(id) {
       Authorization: "Bearer " + token,
     },
   });
+
+  // Faire une mise à jour getWorks;
 }
 
 // Open/Close modal
@@ -62,6 +64,8 @@ export function triggerModal() {
     })
   );
 }
+
+// Faire un evenement qui sépare ouvrir et fermer
 
 export function toggleModal() {
   const modalContainer = document.querySelector(".modal-container");
@@ -170,6 +174,11 @@ export function addNewProjectFromModal() {
   divElement.appendChild(paragraphElement);
   divForm.innerHTML = formHTML;
   modal.appendChild(divForm);
+
+  const formAddNewProject = document.getElementById('form-add-project');
+  console.log(formAddNewProject)
+
+  // Ajouter la fonction pour le form ici
  
 }
 
@@ -178,7 +187,6 @@ export function modalBack() {
   
   const modal = document.querySelector('.modal');
 
-  modal.innerHTML = ''
   modal.innerHTML = `
   <div class="content_modal">
     <h3 class="title_modal">Galerie photo</h3>
@@ -195,8 +203,11 @@ export function modalBack() {
   
 }
 
-const formAddNewProject = document.getElementById('form-add-project');
+// Pour récupérer l'id du form permettant l'ajout d'un nouveau projet
+// const formAddNewProject = document.getElementById('form-add-project');
+// console.log(formAddNewProject)
 //  == null
+// Peut être un problème de priorité ?
 
 // formAddNewProject.addEventListener('submit', function(event) {
 //   event.preventDefault()
@@ -204,7 +215,7 @@ const formAddNewProject = document.getElementById('form-add-project');
 //   fetchFormNewProject()
 // })
 
-export async function fetchCategory() {
+async function fetchCategory() {
   try {
     const category = await fetch("http://localhost:5678/api/categories");
     let data = await category.json();
@@ -222,10 +233,21 @@ export async function fetchCategory() {
   }
 }
 
+// Click on the button to generate the modal page + api call
+function clickBtnAddPhoto() {
+  
+  const btnAddPhoto = document.querySelector(".btn-add-photo");
+  
+  btnAddPhoto.addEventListener("click", () => {
+    addNewProjectFromModal();
+    fetchCategory();
+  });
+}
+clickBtnAddPhoto()
 
 function formContent() {
 
-  const formAddNewProject = document.getElementById('form-add-project');
+  // const formAddNewProject = document.getElementById('form-add-project');
   
   
   const newProjectForm = {};
@@ -260,16 +282,3 @@ function sendNewProject() {
 }
 sendNewProject()
 
-
-// Click on the button to generate the modal page + api call
-function clickBtnAddPhoto() {
-  
-  const btnAddPhoto = document.querySelector(".btn-add-photo");
-  
-  btnAddPhoto.addEventListener("click", () => {
-    addNewProjectFromModal();
-    fetchCategory();
-    triggerModal()
-  });
-}
-clickBtnAddPhoto()
