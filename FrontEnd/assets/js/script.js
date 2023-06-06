@@ -1,6 +1,5 @@
 import { generateGaleryModal } from "./modal.js";
-import { triggerModal } from "./modal.js";
-
+import { addClassModal } from "./modal.js";
 
 
 let getWorksResult = null;
@@ -146,17 +145,23 @@ function createEdit() {
   iconElement.style.color = "black";
   const paragraphElement = document.createElement("p");
   paragraphElement.innerText = "modifer";
-  paragraphElement.classList.add("modal-trigger");
+  paragraphElement.classList.add("btn-open-modal");
 
   btnModal.appendChild(divElement);
   divElement.appendChild(iconElement);
   divElement.appendChild(paragraphElement);
+
 }
 
-// OPEN AND CLOSE MODALE
-triggerModal();
+// OPEN MODALE
 
-// for adding project
+const btnOpenModal = document.querySelector('.btn-open-modal');
+
+btnOpenModal.addEventListener('click', () => {
+  addClassModal()
+})
+
+
 
 
 

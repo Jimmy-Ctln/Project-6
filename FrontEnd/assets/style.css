@@ -232,7 +232,7 @@ a:hover {
 	line-height: 16px;
 }
 
-body.modal-open {
+.modal-open {
 	overflow: hidden;
 }
 

@@ -1,7 +1,7 @@
 import { getWorksResult } from "./script.js";
 import { getWorks } from "./script.js";
 
-const token = sessionStorage.getItem('token');
+const token = sessionStorage.getItem("token");
 // console.log(`Bearer ${token}`)
 // Function to generate the modal gallery on the main page
 
@@ -58,30 +58,37 @@ function deleteProject(id) {
   });
 }
 
-// Open/Close modal
+// Close modal
 
-export function triggerModal() {
-  const modalTriggers = document.querySelectorAll(".modal-trigger");
+function btnCloseModal() {
+  const btnCloseModal = document.querySelectorAll(".close-modal");
 
-  modalTriggers.forEach((trigger) =>
-    trigger.addEventListener("click", function () {
-      toggleModal(), desactivateHomePage();
-    })
-  );
+  btnCloseModal.forEach((btnClose) => {
+    btnClose.addEventListener("click", function () {
+      removeClassModal();
+    });
+  });
 }
+btnCloseModal();
 
-// Faire un evenement qui sépare ouvrir et fermer
+// To add the active class to open the modal
 
-export function toggleModal() {
+export function addClassModal() {
   const modalContainer = document.querySelector(".modal-container");
-  modalContainer.classList.toggle("active");
+  modalContainer.classList.add("active");
+  const body = document.querySelector("body");
+  body.classList.add("modal-open");
 }
 
-// Desactivate home-page for modal
-export function desactivateHomePage() {
+// To remove the active class to close the modal
+
+function removeClassModal() {
+  const modalContainer = document.querySelector(".modal-container");
+  modalContainer.classList.remove("active");
   const body = document.querySelector("body");
-  body.classList.toggle("modal-open");
+  body.classList.remove("modal-open");
 }
+
 
 // Adding a new project from modal
 export function addNewProjectFromModal() {
@@ -105,6 +112,7 @@ export function addNewProjectFromModal() {
     modalBack();
     generateGaleryModal();
     clickBtnAddPhoto();
+    btnCloseModal();
   });
 
   const iconImageElement = document.createElement("i");
@@ -130,8 +138,7 @@ export function addNewProjectFromModal() {
   imageSelectedElement.classList.add("image-selected-element");
   divImageElement.appendChild(imageSelectedElement);
 
-function imageSelected() {
-    
+  function imageSelected() {
     inputFile.addEventListener("change", () => {
       const selectedFile = inputFile.files[0];
       const reader = new FileReader();
@@ -146,12 +153,9 @@ function imageSelected() {
       iconImageElement.remove("i");
       divBtn.remove("div");
       paragraphElement.remove("p");
-      
     });
-  
-}
-imageSelected();
-
+  }
+  imageSelected();
 
   const paragraphElement = document.createElement("p");
   paragraphElement.innerText = "jpg, png : 4mo max";
@@ -185,14 +189,11 @@ imageSelected();
   divForm.innerHTML = formHTML;
   modal.appendChild(divForm);
 
-
   const formAddNewProject = document.getElementById("form-add-project");
   const newProjectForm = {};
 
-  
-
   // function formContent() {
-    
+
   //   const formAddNewProject = document.getElementById("form-add-project");
 
   //   const selectedFileForm = inputFile.files[0];
@@ -203,60 +204,53 @@ imageSelected();
   //   newProjectForm.title = titleForm;
   //   newProjectForm.categoryId = categoryFormId;
   //   newProjectForm.imageUrl = selectedFileForm;
-    
+
   //   // console.log(typeof selectedFileForm)
   //   // console.log(typeof categoryForm)
   //   // console.log(typeof titleForm)
 
   // }
-  
+
   const formData = new FormData();
 
   function formDataProject() {
-
-    
     const titleForm = formAddNewProject.elements["title-form"].value;
     const categoryFormId = formAddNewProject.elements["category-api"].value;
     const selectedFileForm = inputFile.files[0];
 
-    formData.append('title', titleForm);
-    formData.append('categoryId', categoryFormId);
-    formData.append('imageUrl', selectedFileForm);
+    formData.append("title", titleForm);
+    formData.append("categoryId", categoryFormId);
+    formData.append("imageUrl", selectedFileForm);
     for (let pair of formData.entries()) {
       console.log(pair);
     }
   }
-  
 
   // function for send new project with api
   async function fetchFormNewProject() {
-    
     const fetchNewProject = await fetch("http://localhost:5678/api/works", {
       method: "POST",
       header: {
-        'Content-Type': 'multipart/form-data',
-        Authorization : `Bearer ${token}`
-
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
       },
       body: formData,
-    })
-    .then((response) => {
-      if(response.ok) {
-        console.log('Projet validé et envoyé !');
-        return response.json()
+    }).then((response) => {
+      if (response.ok) {
+        console.log("Projet validé et envoyé !");
+        return response.json();
       } else {
-        console.log('erreur.')
+        console.log("erreur.");
       }
-    })
+    });
   }
 
-  
   formAddNewProject.addEventListener("submit", function (event) {
     event.preventDefault();
     // formContent();
     // console.log(newProjectForm)
     formDataProject();
-    console.log(formData)
+    console.log(formData);
     fetchFormNewProject();
   });
 }
@@ -267,7 +261,7 @@ export function modalBack() {
   modal.innerHTML = `
   <div class="content_modal">
     <h3 class="title_modal">Galerie photo</h3>
-    <i class="fa-solid fa-xmark modal-trigger"></i>
+    <i class="fa-solid fa-xmark close-modal"></i>
   </div>
   <div class="grid-modal">
     <div class="gallery_modal"></div>
@@ -278,7 +272,6 @@ export function modalBack() {
     <p class="delete-gallery">Supprimer la galerie</p>
   </div>`;
 }
-
 
 async function fetchCategory() {
   try {
