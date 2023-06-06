@@ -1,5 +1,6 @@
 import { generateGaleryModal } from "./modal.js";
 import { addClassModal } from "./modal.js";
+import { baseUrl } from "./urlApi.js";
 
 
 let getWorksResult = null;
@@ -9,7 +10,7 @@ let getWorksResult = null;
 export async function getWorks(data) {
   try {
     // Recovery of the api
-    const fetchWorks = await fetch("http://localhost:5678/api/works");
+    const fetchWorks = await fetch(`${baseUrl}works`);
     data = await fetchWorks.json();
     return data;
   } catch (error) {

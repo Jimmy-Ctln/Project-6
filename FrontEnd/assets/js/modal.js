@@ -1,5 +1,6 @@
 import { getWorksResult } from "./script.js";
 import { getWorks } from "./script.js";
+import { baseUrl } from "./urlApi.js";
 
 const token = sessionStorage.getItem("token");
 // console.log(`Bearer ${token}`)
@@ -49,7 +50,7 @@ export function generateGaleryModal() {
 function deleteProject(id) {
   let token = sessionStorage.getItem("token");
 
-  fetch("http://localhost:5678/api/works/" + id, {
+  fetch(`${baseUrl}works/` + id, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -228,7 +229,7 @@ export function addNewProjectFromModal() {
 
   // function for send new project with api
   async function fetchFormNewProject() {
-    const fetchNewProject = await fetch("http://localhost:5678/api/works", {
+    const fetchNewProject = await fetch(`${baseUrl}works`, {
       method: "POST",
       header: {
         "Content-Type": "multipart/form-data",
@@ -275,7 +276,7 @@ export function modalBack() {
 
 async function fetchCategory() {
   try {
-    const category = await fetch("http://localhost:5678/api/categories");
+    const category = await fetch(`${baseUrl}categories`);
     let data = await category.json();
 
     data.forEach((category) => {
