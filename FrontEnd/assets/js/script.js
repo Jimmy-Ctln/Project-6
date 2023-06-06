@@ -7,7 +7,7 @@ let getWorksResult = null;
 
 
 // create a fetch function for works
-async function getWorks(data) {
+export async function getWorks(data) {
   try {
     // Recovery of the api
     const fetchWorks = await fetch("http://localhost:5678/api/works");
@@ -19,7 +19,8 @@ async function getWorks(data) {
 }
 
 getWorksResult = getWorks();
-export { getWorksResult }
+export { getWorksResult };
+
 
 
 getWorksResult.then((data) => {
@@ -89,7 +90,7 @@ getWorksResult.then((data) => {
 
 // change for connect
 function userLogin() {
-  if (sessionStorage.getItem("userId")) {
+  if (sessionStorage.getItem("token")) {
     let login = document.querySelector(".login");
     login.innerHTML = "logout";
     let editBar = document.querySelector(".edit_bar");

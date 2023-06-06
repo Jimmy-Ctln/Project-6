@@ -1,42 +1,49 @@
 import { getWorksResult } from "./script.js";
+import { getWorks } from "./script.js";
 
+const token = sessionStorage.getItem('token');
+// console.log(`Bearer ${token}`)
 // Function to generate the modal gallery on the main page
 
 export function generateGaleryModal() {
   getWorksResult.then((data) => {
-  const galleryModal = document.querySelector(".gallery_modal");
+    const galleryModal = document.querySelector(".gallery_modal");
 
-  // Browse the table data
-  for (let i = 0; i < data.length; i++) {
-    // Creation of figure
-    const figureElement = document.createElement("figure");
-    figureElement.classList.add("figure-modal");
-    figureElement.id = data[i].id;
+    // // Check le nombre d'élèment dans le tableau
+    // console.log(data)
 
-    // Creation of img
-    const imageElement = document.createElement("img");
-    imageElement.classList.add("img-galery");
-    imageElement.src = data[i].imageUrl;
+    // Browse the table data
+    for (let i = 0; i < data.length; i++) {
+      // Creation of figure
+      const figureElement = document.createElement("figure");
+      figureElement.classList.add("figure-modal");
+      figureElement.id = data[i].id;
 
-    const iconElement = document.createElement("i");
-    iconElement.classList.add("fa-solid", "fa-trash-can");
+      // Creation of img
+      const imageElement = document.createElement("img");
+      imageElement.classList.add("img-galery");
+      imageElement.src = data[i].imageUrl;
 
-    // Creation of title
-    const paragraphElement = document.createElement("p");
-    paragraphElement.innerText = "éditer";
+      const iconElement = document.createElement("i");
+      iconElement.classList.add("fa-solid", "fa-trash-can");
 
-    // To display the elements
-    galleryModal.appendChild(figureElement);
-    figureElement.appendChild(imageElement);
-    figureElement.appendChild(iconElement);
-    figureElement.appendChild(paragraphElement);
+      // Creation of title
+      const paragraphElement = document.createElement("p");
+      paragraphElement.innerText = "éditer";
 
-    iconElement.addEventListener("click", function () {
-      console.log("click" + data[i].id);
-      deleteProject(data[i].id);
-    });
-  }
-});
+      // To display the elements
+      galleryModal.appendChild(figureElement);
+      figureElement.appendChild(imageElement);
+      figureElement.appendChild(iconElement);
+      figureElement.appendChild(paragraphElement);
+
+      iconElement.addEventListener("click", function () {
+        console.log("click" + data[i].id);
+        figureElement.remove(data[i]);
+        deleteProject(data[i].id);
+      });
+    }
+  });
 }
 
 function deleteProject(id) {
@@ -46,11 +53,9 @@ function deleteProject(id) {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: `Bearer ${token}`,
     },
   });
-
-  // Faire une mise à jour getWorks;
 }
 
 // Open/Close modal
@@ -91,18 +96,17 @@ export function addNewProjectFromModal() {
   const divElement = document.createElement("div");
   divElement.classList.add("rectangle-modal");
 
-  
   const iconArrowElement = document.createElement("i");
   iconArrowElement.classList.add("fa-solid", "fa-regular", "fa-arrow-left");
   iconArrowElement.style.color = "black";
 
-  iconArrowElement.addEventListener('click', function() {
+  // Click on the back arrow
+  iconArrowElement.addEventListener("click", function () {
     modalBack();
     generateGaleryModal();
-    clickBtnAddPhoto()
-  })
+    clickBtnAddPhoto();
+  });
 
-  
   const iconImageElement = document.createElement("i");
   iconImageElement.classList.add("fa-regular", "fa-image", "icon-image");
 
@@ -126,22 +130,28 @@ export function addNewProjectFromModal() {
   imageSelectedElement.classList.add("image-selected-element");
   divImageElement.appendChild(imageSelectedElement);
 
-  inputFile.addEventListener("change", () => {
-    const selectedFile = inputFile.files[0];
-    console.log(selectedFile);
-    const reader = new FileReader();
+function imageSelected() {
+    
+    inputFile.addEventListener("change", () => {
+      const selectedFile = inputFile.files[0];
+      const reader = new FileReader();
 
-    reader.onload = function (event) {
-      const content = event.target.result;
-      imageSelectedElement.src = content;
-    };
+      reader.onload = function (event) {
+        const content = event.target.result;
+        imageSelectedElement.src = content;
+      };
 
-    reader.readAsDataURL(selectedFile);
+      reader.readAsDataURL(selectedFile);
 
-    iconImageElement.remove("i");
-    divBtn.remove("div");
-    paragraphElement.remove("p");
-  });
+      iconImageElement.remove("i");
+      divBtn.remove("div");
+      paragraphElement.remove("p");
+      
+    });
+  
+}
+imageSelected();
+
 
   const paragraphElement = document.createElement("p");
   paragraphElement.innerText = "jpg, png : 4mo max";
@@ -175,17 +185,84 @@ export function addNewProjectFromModal() {
   divForm.innerHTML = formHTML;
   modal.appendChild(divForm);
 
-  const formAddNewProject = document.getElementById('form-add-project');
-  console.log(formAddNewProject)
 
-  // Ajouter la fonction pour le form ici
- 
+  const formAddNewProject = document.getElementById("form-add-project");
+  const newProjectForm = {};
+
+  
+
+  // function formContent() {
+    
+  //   const formAddNewProject = document.getElementById("form-add-project");
+
+  //   const selectedFileForm = inputFile.files[0];
+  //   const titleForm = formAddNewProject.elements["title-form"].value;
+
+  //   const categoryFormId = formAddNewProject.elements["category-api"].value;
+
+  //   newProjectForm.title = titleForm;
+  //   newProjectForm.categoryId = categoryFormId;
+  //   newProjectForm.imageUrl = selectedFileForm;
+    
+  //   // console.log(typeof selectedFileForm)
+  //   // console.log(typeof categoryForm)
+  //   // console.log(typeof titleForm)
+
+  // }
+  
+  const formData = new FormData();
+
+  function formDataProject() {
+
+    
+    const titleForm = formAddNewProject.elements["title-form"].value;
+    const categoryFormId = formAddNewProject.elements["category-api"].value;
+    const selectedFileForm = inputFile.files[0];
+
+    formData.append('title', titleForm);
+    formData.append('categoryId', categoryFormId);
+    formData.append('imageUrl', selectedFileForm);
+    for (let pair of formData.entries()) {
+      console.log(pair);
+    }
+  }
+  
+
+  // function for send new project with api
+  async function fetchFormNewProject() {
+    
+    const fetchNewProject = await fetch("http://localhost:5678/api/works", {
+      method: "POST",
+      header: {
+        'Content-Type': 'multipart/form-data',
+        Authorization : `Bearer ${token}`
+
+      },
+      body: formData,
+    })
+    .then((response) => {
+      if(response.ok) {
+        console.log('Projet validé et envoyé !');
+        return response.json()
+      } else {
+        console.log('erreur.')
+      }
+    })
+  }
+
+  
+  formAddNewProject.addEventListener("submit", function (event) {
+    event.preventDefault();
+    // formContent();
+    // console.log(newProjectForm)
+    formDataProject();
+    console.log(formData)
+    fetchFormNewProject();
+  });
 }
 
-
 export function modalBack() {
-  
-  const modal = document.querySelector('.modal');
+  const modal = document.querySelector(".modal");
 
   modal.innerHTML = `
   <div class="content_modal">
@@ -199,21 +276,9 @@ export function modalBack() {
   <div class="footer_modal">
     <button class="btn-add-photo">Ajouter une photo</button>
     <p class="delete-gallery">Supprimer la galerie</p>
-  </div>`
-  
+  </div>`;
 }
 
-// Pour récupérer l'id du form permettant l'ajout d'un nouveau projet
-// const formAddNewProject = document.getElementById('form-add-project');
-// console.log(formAddNewProject)
-//  == null
-// Peut être un problème de priorité ?
-
-// formAddNewProject.addEventListener('submit', function(event) {
-//   event.preventDefault()
-//   formContent()
-//   fetchFormNewProject()
-// })
 
 async function fetchCategory() {
   try {
@@ -235,50 +300,11 @@ async function fetchCategory() {
 
 // Click on the button to generate the modal page + api call
 function clickBtnAddPhoto() {
-  
   const btnAddPhoto = document.querySelector(".btn-add-photo");
-  
+
   btnAddPhoto.addEventListener("click", () => {
     addNewProjectFromModal();
     fetchCategory();
   });
 }
-clickBtnAddPhoto()
-
-function formContent() {
-
-  // const formAddNewProject = document.getElementById('form-add-project');
-  
-  
-  const newProjectForm = {};
-  
-  const titleForm = formAddNewProject.elements['title-form'].value;
-  const categoryForm = formAddNewProject.elements['category-api'].value;
-  
-  newProjectForm.title = titleForm;
-  newProjectForm.name = categoryForm;
-}
-
-
-// function for send new project with api
-async function fetchFormNewProject() {
-
-  const fetchNewProject = await fetch('http://localhost:5678/api/categories', {
-
-    method: 'POST',
-    header: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(newProjectForm),
-  })
-  
-  
-}
-
-function sendNewProject() {
- 
-  const formAddNewProject = document.getElementById('form-add-project');
-      
-}
-sendNewProject()
-
+clickBtnAddPhoto();
