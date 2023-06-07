@@ -50,6 +50,7 @@ getWorksResult.then((data) => {
       gallery.appendChild(figureElement);
       figureElement.appendChild(imageElement);
       figureElement.appendChild(titleElement);
+
     }
   }
   generateGallery(data);
@@ -79,6 +80,7 @@ getWorksResult.then((data) => {
     filterElement("Hotels & restaurants");
   });
 });
+
 
 // For modal
 getWorksResult.then((data) => {
