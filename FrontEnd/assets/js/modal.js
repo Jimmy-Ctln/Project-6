@@ -6,6 +6,7 @@ const token = sessionStorage.getItem("token");
 // console.log(`Bearer ${token}`)
 // Function to generate the modal gallery on the main page
 
+
 export function generateGaleryModal() {
   getWorksResult.then((data) => {
     const galleryModal = document.querySelector(".gallery_modal");
@@ -39,9 +40,11 @@ export function generateGaleryModal() {
       figureElement.appendChild(paragraphElement);
 
       iconElement.addEventListener("click", function () {
-        console.log("click" + data[i].id);
+        // console.log("click" + data[i].id);
         figureElement.remove(data[i]);
+
         deleteProject(data[i].id);
+        
       });
     }
   });
@@ -59,6 +62,50 @@ function deleteProject(id) {
   });
 }
 
+function refreshGaleryModalBack() {
+  getWorks().then((data) => {
+
+    const galleryModal = document.querySelector(".gallery_modal");
+  
+      // // Check le nombre d'élèment dans le tableau
+      // console.log(data)
+  
+      // Browse the table data
+      for (let i = 0; i < data.length; i++) {
+        // Creation of figure
+        const figureElement = document.createElement("figure");
+        figureElement.classList.add("figure-modal");
+        figureElement.id = data[i].id;
+  
+        // Creation of img
+        const imageElement = document.createElement("img");
+        imageElement.classList.add("img-galery");
+        imageElement.src = data[i].imageUrl;
+  
+        const iconElement = document.createElement("i");
+        iconElement.classList.add("fa-solid", "fa-trash-can");
+  
+        // Creation of title
+        const paragraphElement = document.createElement("p");
+        paragraphElement.innerText = "éditer";
+  
+        // To display the elements
+        galleryModal.appendChild(figureElement);
+        figureElement.appendChild(imageElement);
+        figureElement.appendChild(iconElement);
+        figureElement.appendChild(paragraphElement);
+  
+        iconElement.addEventListener("click", function () {
+          // console.log("click" + data[i].id);
+          figureElement.remove(data[i]);
+          deleteProject(data[i].id);
+          console.log(getWorks(data))
+          
+        });
+      }
+  })
+}
+
 // Close modal
 
 function btnCloseModal() {
@@ -67,6 +114,7 @@ function btnCloseModal() {
   btnCloseModal.forEach((btnClose) => {
     btnClose.addEventListener("click", function () {
       removeClassModal();
+      location.reload();
     });
   });
 }
@@ -111,7 +159,7 @@ export function addNewProjectFromModal() {
   // Click on the back arrow
   iconArrowElement.addEventListener("click", function () {
     modalBack();
-    generateGaleryModal();
+    refreshGaleryModalBack()
     clickBtnAddPhoto();
     btnCloseModal();
   });

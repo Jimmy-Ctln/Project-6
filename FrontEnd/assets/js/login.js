@@ -74,5 +74,5 @@ function connectionError() {
         paragraphElement.innerText="";
         }, delai);
     }
-    
+
 }

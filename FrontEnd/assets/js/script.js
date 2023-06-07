@@ -22,7 +22,6 @@ getWorksResult = getWorks();
 export { getWorksResult };
 
 
-
 getWorksResult.then((data) => {
   // Recovery class gallery
   const gallery = document.querySelector(".gallery");
