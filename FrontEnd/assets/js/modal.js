@@ -287,14 +287,31 @@ export function addNewProjectFromModal() {
   }
 
   function checkInput() {
+    let conditionImage = false;
+    let conditionTitle = false;
     const titleForm = formAddNewProject.elements["title"].value;
-    const inputFile = document.getElementById("imageUrl");
-    const confirmBtn = document.querySelector(".confirm-btn");
+    
+    const selectedFile = inputFile.files;
 
-    if (titleForm === "") {
-      CreateErrorForTitle();
-    } else {
+    if (selectedFile.length > 0) {
+      conditionImage = true;
+      console.log('image ok')
+    }
+    
+    if (titleForm !== "") {
+      conditionTitle = true;
+    }
+    if (conditionImage && conditionTitle === true) {
       fetchFormNewProject();
+    } else {
+      
+      if (!conditionImage) {
+        createErrorForImage();
+      }
+
+      if (!conditionTitle) {
+        CreateErrorForTitle();
+      }
     }
   }
 
@@ -308,8 +325,9 @@ export function addNewProjectFromModal() {
 
     inputFile.addEventListener("change", function () {
       if (inputFile.files.length > 0) {
-        conditionImage = true
-      } if(conditionImage && conditionTitle === true) {
+        conditionImage = true;
+      }
+      if (conditionImage && conditionTitle === true) {
         confirmBtn.style.backgroundColor = "#1D6154";
       } else {
         confirmBtn.style.backgroundColor = "#A7A7A7";
@@ -318,24 +336,18 @@ export function addNewProjectFromModal() {
 
     titleForm.addEventListener("input", function () {
       const titleFormValue = titleForm.value;
-  
-      if (titleFormValue !== "") {
-        conditionTitle = true
 
-      } if(conditionImage && conditionTitle === true) {
+      if (titleFormValue !== "") {
+        conditionTitle = true;
+      }
+      if (conditionImage && conditionTitle === true) {
         confirmBtn.style.backgroundColor = "#1D6154";
       } else {
         confirmBtn.style.backgroundColor = "#A7A7A7";
-      } 
+      }
     });
   }
   changeColorBtnForm();
-
-  // confirmBtn.style.backgroundColor = "#1D6154";
-  // confirmBtn.style.backgroundColor = "#A7A7A7";
-
-
-
 
   function CreateErrorForTitle() {
     const divError = document.querySelector(".errorMessageForm");
@@ -344,34 +356,20 @@ export function addNewProjectFromModal() {
     divError.appendChild(errorMessage);
   }
 
-  // function createErrorForImage() {
-
-  //   const divErrorInput = document.createElement('div');
-  //   divErrorInput.classList.add('error-form-input')
-  //   const ErrorMessageInput = document.createElement('span');
-  //   ErrorMessageInput.innerText = "Veuillez sélectionner une image";
-  //   divElement.appendChild(divErrorInput);
-  //   divErrorInput.appendChild(ErrorMessageInput);
-
-  // }
+  function createErrorForImage() {
+    const divErrorInput = document.createElement("div");
+    divErrorInput.classList.add("error-form-input");
+    const ErrorMessageInput = document.createElement("span");
+    ErrorMessageInput.innerText = "Veuillez sélectionner une image";
+    divElement.appendChild(divErrorInput);
+    divErrorInput.appendChild(ErrorMessageInput);
+  }
 
   formAddNewProject.addEventListener("submit", function (event) {
     event.preventDefault();
     checkInput();
   });
 }
-
-// const formAddNewProject = document.getElementById("form-add-project");
-// const confirmBtn = document.querySelector('.confirm-btn')
-
-// formAddNewProject.addEventListener("input", function(){
-
-//   if (titleForm !== "") {
-//     confirmBtn.style.backgroundColor = "#1D6154"
-//   } else {
-//     confirmBtn.style.backgroundColor = "#A7A7A7"
-//   }
-// })
 
 export function modalBack() {
   const modal = document.querySelector(".modal");
