@@ -45,7 +45,6 @@ export function generateGaleryModal() {
       });
 
       function deleteProject(id) {
-
         fetch(`${baseUrl}works/` + id, {
           method: "DELETE",
           headers: {
@@ -99,7 +98,6 @@ function refreshGaleryModalBack() {
       });
 
       function deleteProject(id) {
-
         fetch(`${baseUrl}works/` + id, {
           method: "DELETE",
           headers: {
@@ -186,7 +184,8 @@ export function addNewProjectFromModal() {
   btnAddPhoto.classList.add("btn-add");
   const inputFile = document.createElement("input");
   inputFile.setAttribute("type", "file");
-  inputFile.setAttribute('name', "imageUrl")
+  inputFile.setAttribute("name", "imageUrl");
+  inputFile.id = "imageUrl";
   inputFile.style.display = "none";
 
   btnAddPhoto.addEventListener("click", () => {
@@ -209,9 +208,9 @@ export function addNewProjectFromModal() {
         const content = event.target.result;
         imageSelectedElement.src = content;
       };
-      
+
       reader.readAsDataURL(selectedFile);
-  
+
       iconImageElement.remove("i");
       divBtn.remove("div");
       paragraphElement.remove("p");
@@ -229,12 +228,13 @@ export function addNewProjectFromModal() {
     <form id="form-add-project" action="#" method="post">
         <label for="title">Titre</label>
         <input class="bloc-form" type="text" name="title" id="title-form">
+        <div class="errorMessageForm"></div>
         
         <label class="category" for="Category">Catégorie</label>
         <select class="bloc-form" id="category-api" name="categoryId"></select>
 
         
-        <input class="confirm" type="submit" value="Valider">
+        <input class="confirm-btn" type="submit" value="Valider">
     </form>
     `;
 
@@ -252,28 +252,22 @@ export function addNewProjectFromModal() {
   modal.appendChild(divForm);
 
   const formAddNewProject = document.getElementById("form-add-project");
-  
 
-  
   function formDataProject() {
-    
     const formData = new FormData();
     const titleForm = formAddNewProject.elements["title"].value;
-    const categoryFormId = formAddNewProject.elements["categoryId"].value;
-    console.log(titleForm)
-    console.log(categoryFormId)
-    
-    const selectedFile = inputFile.files[0];
-    
-    
-    formData.append('image', selectedFile, "image")
-    formData.append('title', titleForm);
-    formData.append('category', categoryFormId);
 
-    return formData
+    const categoryFormId = formAddNewProject.elements["categoryId"].value;
+
+    const selectedFile = inputFile.files[0];
+
+    formData.append("image", selectedFile, "image");
+    formData.append("title", titleForm);
+    formData.append("category", categoryFormId);
+
+    return formData;
   }
 
-    
   // function for send new project with api
   function fetchFormNewProject() {
     fetch(`${baseUrl}works`, {
@@ -292,12 +286,92 @@ export function addNewProjectFromModal() {
     });
   }
 
+  function checkInput() {
+    const titleForm = formAddNewProject.elements["title"].value;
+    const inputFile = document.getElementById("imageUrl");
+    const confirmBtn = document.querySelector(".confirm-btn");
+
+    if (titleForm === "") {
+      CreateErrorForTitle();
+    } else {
+      fetchFormNewProject();
+    }
+  }
+
+  function changeColorBtnForm() {
+    let conditionImage = false;
+    let conditionTitle = false;
+
+    const titleForm = formAddNewProject.elements["title"];
+    const inputFile = document.getElementById("imageUrl");
+    const confirmBtn = document.querySelector(".confirm-btn");
+
+    inputFile.addEventListener("change", function () {
+      if (inputFile.files.length > 0) {
+        conditionImage = true
+      } if(conditionImage && conditionTitle === true) {
+        confirmBtn.style.backgroundColor = "#1D6154";
+      } else {
+        confirmBtn.style.backgroundColor = "#A7A7A7";
+      }
+    });
+
+    titleForm.addEventListener("input", function () {
+      const titleFormValue = titleForm.value;
+  
+      if (titleFormValue !== "") {
+        conditionTitle = true
+
+      } if(conditionImage && conditionTitle === true) {
+        confirmBtn.style.backgroundColor = "#1D6154";
+      } else {
+        confirmBtn.style.backgroundColor = "#A7A7A7";
+      } 
+    });
+  }
+  changeColorBtnForm();
+
+  // confirmBtn.style.backgroundColor = "#1D6154";
+  // confirmBtn.style.backgroundColor = "#A7A7A7";
+
+
+
+
+  function CreateErrorForTitle() {
+    const divError = document.querySelector(".errorMessageForm");
+    const errorMessage = document.createElement("span");
+    errorMessage.innerText = "Veuillez renseigner un titre";
+    divError.appendChild(errorMessage);
+  }
+
+  // function createErrorForImage() {
+
+  //   const divErrorInput = document.createElement('div');
+  //   divErrorInput.classList.add('error-form-input')
+  //   const ErrorMessageInput = document.createElement('span');
+  //   ErrorMessageInput.innerText = "Veuillez sélectionner une image";
+  //   divElement.appendChild(divErrorInput);
+  //   divErrorInput.appendChild(ErrorMessageInput);
+
+  // }
+
   formAddNewProject.addEventListener("submit", function (event) {
     event.preventDefault();
-    // console.log(formData)
-    fetchFormNewProject();
+    checkInput();
   });
 }
+
+// const formAddNewProject = document.getElementById("form-add-project");
+// const confirmBtn = document.querySelector('.confirm-btn')
+
+// formAddNewProject.addEventListener("input", function(){
+
+//   if (titleForm !== "") {
+//     confirmBtn.style.backgroundColor = "#1D6154"
+//   } else {
+//     confirmBtn.style.backgroundColor = "#A7A7A7"
+//   }
+// })
 
 export function modalBack() {
   const modal = document.querySelector(".modal");

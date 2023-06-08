@@ -89,6 +89,9 @@ getWorksResult.then((data) => {
 
 });
 
+
+// Peut être ajouter les deux fonction dans "login" et de les exporter ici ?
+
 // change for connect
 function userLogin() {
   if (sessionStorage.getItem("token")) {
@@ -102,6 +105,9 @@ function userLogin() {
   }
 }
 userLogin();
+
+
+// Peut être ajouter les deux fonction dans "login" et de les exporter ici ?
 
 // change for disconnect
 function logout() {
@@ -156,6 +162,8 @@ function createEdit() {
 }
 
 // OPEN MODALE
+
+//Il y a une erreur quand je me déconnecte car il ne détecte plus. Peut être faire une condition quand je me connecte, d'activer, désactiver la fonction ?
 
 const btnOpenModal = document.querySelector('.btn-open-modal');
 

@@ -14,11 +14,6 @@ function formContent() {
 }
 
 
-// const user = {
-//     email: 'sophie.bluel@test.tld',
-//     password: 'S0phie'
-// }
-
 async function fetchUsers() {
 
     const fetchUser = await fetch("http://localhost:5678/api/users/login", {

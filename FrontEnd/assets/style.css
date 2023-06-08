@@ -410,6 +410,19 @@ a:hover {
 	justify-content: center;
 }
 
+.error-form-input {
+	margin-top: 10px;
+	text-align: center;
+	color: red;
+	font-size: 13px;
+}
+
+.errorMessageForm {
+	margin-top: 5px;
+	color: red;
+	font-size: 13px;
+}
+
 .supported-format {
 	text-align: center;
 	margin-top: 7px;
@@ -500,7 +513,7 @@ a:hover {
 	margin-top: 47px;
 }
 
-.confirm {
+.confirm-btn {
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
