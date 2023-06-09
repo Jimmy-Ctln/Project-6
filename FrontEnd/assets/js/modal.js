@@ -1,6 +1,7 @@
 import { getWorksResult } from "./script.js";
 import { getWorks } from "./script.js";
 import { baseUrl } from "./urlApi.js";
+import { refreshGallery } from "./script.js";
 
 const token = sessionStorage.getItem("token");
 // console.log(`Bearer ${token}`)
@@ -37,37 +38,24 @@ export function generateGaleryModal() {
       figureElement.appendChild(imageElement);
       figureElement.appendChild(iconElement);
       figureElement.appendChild(paragraphElement);
-
+      
       iconElement.addEventListener("click", function () {
         // console.log("click" + data[i].id);
         // figureElement.remove(data[i]);
         deleteProject(data[i].id);
+        figureElement.remove(data[i]);
       });
 
-      function deleteProject(id) {
-        fetch(`${baseUrl}works/` + id, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }).then((response) => {
-          if (response.ok) {
-            console.log("Suppresion validé !");
-            figureElement.remove(data[i]);
-          } else {
-            console.log("erreur lors de la supppresion.");
-          }
-        });
-      }
     }
   });
 }
 
+
 function refreshGaleryModalBack() {
   getWorks().then((data) => {
     const galleryModal = document.querySelector(".gallery_modal");
-
+    console.log(data)
+    galleryModal.innerHTML="";
     // Browse the table data
     for (let i = 0; i < data.length; i++) {
       // Creation of figure
@@ -95,41 +83,27 @@ function refreshGaleryModalBack() {
 
       iconTrashCan.addEventListener("click", function () {
         deleteProject(data[i].id);
+        figureElement.remove(data[i]);
+        console.log(data)
       });
-
-      function deleteProject(id) {
-        fetch(`${baseUrl}works/` + id, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }).then((response) => {
-          if (response.ok) {
-            console.log("Suppresion validé !");
-            figureElement.remove(data[i]);
-          } else {
-            console.log("erreur lors de la supppresion.");
-          }
-        });
-      }
+      
     }
+    
   });
 }
 
 // Close modal
 
-function btnCloseModal() {
+function CloseModal() {
   const btnCloseModal = document.querySelectorAll(".close-modal");
-
+  
   btnCloseModal.forEach((btnClose) => {
     btnClose.addEventListener("click", function () {
       removeClassModal();
-      location.reload();
     });
   });
 }
-btnCloseModal();
+CloseModal()
 
 // To add the active class to open the modal
 
@@ -171,7 +145,7 @@ export function addNewProjectFromModal() {
     modalBack();
     refreshGaleryModalBack();
     clickBtnAddPhoto();
-    btnCloseModal();
+    CloseModal();
   });
 
   const iconImageElement = document.createElement("i");
@@ -279,7 +253,8 @@ export function addNewProjectFromModal() {
     }).then((response) => {
       if (response.ok) {
         console.log("Projet validé et envoyé !");
-        return response.json();
+        refreshGaleryModalBack()
+        refreshGallery()
       } else {
         console.log("erreur lors de l'envoi.");
       }
@@ -295,7 +270,6 @@ export function addNewProjectFromModal() {
 
     if (selectedFile.length > 0) {
       conditionImage = true;
-      console.log('image ok')
     }
     
     if (titleForm !== "") {
@@ -305,9 +279,9 @@ export function addNewProjectFromModal() {
       fetchFormNewProject();
     } else {
       
-      if (!conditionImage) {
-        createErrorForImage();
-      }
+      if (!conditionImage ) {
+        createErrorForImage(true);
+      } 
 
       if (!conditionTitle) {
         CreateErrorForTitle();
@@ -357,12 +331,14 @@ export function addNewProjectFromModal() {
   }
 
   function createErrorForImage() {
-    const divErrorInput = document.createElement("div");
-    divErrorInput.classList.add("error-form-input");
-    const ErrorMessageInput = document.createElement("span");
-    ErrorMessageInput.innerText = "Veuillez sélectionner une image";
-    divElement.appendChild(divErrorInput);
-    divErrorInput.appendChild(ErrorMessageInput);
+    
+      const divErrorInput = document.createElement("div");
+      divErrorInput.classList.add("error-form-input");
+      const ErrorMessageInput = document.createElement("span");
+      ErrorMessageInput.innerText = "Veuillez sélectionner une image";
+      divElement.appendChild(divErrorInput);
+      divErrorInput.appendChild(ErrorMessageInput);  
+    
   }
 
   formAddNewProject.addEventListener("submit", function (event) {
@@ -417,3 +393,21 @@ function clickBtnAddPhoto() {
   });
 }
 clickBtnAddPhoto();
+
+export function deleteProject(id) {
+  fetch(`${baseUrl}works/` + id, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((response) => {
+    if (response.ok) {
+      console.log("Suppresion validé !");
+      refreshGallery()
+      refreshGaleryModalBack()
+    } else {
+      console.log("erreur lors de la supppresion.");
+    }
+  });
+}

@@ -1,10 +1,7 @@
 import { generateGaleryModal } from "./modal.js";
 import { addClassModal } from "./modal.js";
 import { baseUrl } from "./urlApi.js";
-
-
 let getWorksResult = null;
-
 
 // create a fetch function for works
 export async function getWorks(data) {
@@ -51,7 +48,10 @@ getWorksResult.then((data) => {
       figureElement.appendChild(imageElement);
       figureElement.appendChild(titleElement);
 
+      
     }
+
+
   }
   generateGallery(data);
 
@@ -170,6 +170,33 @@ const btnOpenModal = document.querySelector('.btn-open-modal');
 btnOpenModal.addEventListener('click', () => {
   addClassModal()
 })
+
+export function refreshGallery() {
+  getWorks().then((data) => {
+    const gallery = document.querySelector(".gallery");
+
+    gallery.innerHTML="";
+      // Browse the table data
+      for (let i = 0; i < data.length; i++) {
+        // Creation of figure
+        const figureElement = document.createElement("figure");
+  
+        // Creation of img
+        const imageElement = document.createElement("img");
+        imageElement.src = data[i].imageUrl;
+  
+        // Creation of title
+        const titleElement = document.createElement("figcaption");
+        titleElement.innerText = data[i].title;
+  
+        // To display the elements
+        gallery.appendChild(figureElement);
+        figureElement.appendChild(imageElement);
+        figureElement.appendChild(titleElement);
+      }
+    
+  })
+}
 
 
 
