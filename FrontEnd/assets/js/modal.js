@@ -4,15 +4,14 @@ import { baseUrl } from "./urlApi.js";
 import { refreshGallery } from "./script.js";
 
 const token = sessionStorage.getItem("token");
-let createErrorImage = false
+let createErrorImage = false;
 let createErrorTitle = false;
 
+
+// To generate the modal gallery
 export function generateGaleryModal() {
   getWorksResult.then((data) => {
     const galleryModal = document.querySelector(".gallery_modal");
-
-    // // Check le nombre d'élèment dans le tableau
-    // console.log(data)
 
     // Browse the table data
     for (let i = 0; i < data.length; i++) {
@@ -38,83 +37,28 @@ export function generateGaleryModal() {
       figureElement.appendChild(imageElement);
       figureElement.appendChild(iconElement);
       figureElement.appendChild(paragraphElement);
-      
+
       iconElement.addEventListener("click", function () {
-        // console.log("click" + data[i].id);
-        // figureElement.remove(data[i]);
         deleteProject(data[i].id);
         figureElement.remove(data[i]);
       });
-
     }
-  });
-  
-}
-
-
-function refreshGaleryModalBack() {
-  getWorks().then((data) => {
-    const galleryModal = document.querySelector(".gallery_modal");
-    
-    if (galleryModal !== null) {
-      // Manipulez le contenu de l'élément ici en toute sécurité
-      galleryModal.innerHTML = "";
-    }
-    // Browse the table data
-    for (let i = 0; i < data.length; i++) {
-      // Creation of figure
-      const figureElement = document.createElement("figure");
-      figureElement.classList.add("figure-modal");
-      figureElement.id = data[i].id;
-
-      // Creation of img
-      const imageElement = document.createElement("img");
-      imageElement.classList.add("img-galery");
-      imageElement.src = data[i].imageUrl;
-
-      const iconTrashCan = document.createElement("i");
-      iconTrashCan.classList.add("fa-solid", "fa-trash-can");
-
-      // Creation of title
-      const paragraphElement = document.createElement("p");
-      paragraphElement.innerText = "éditer";
-
-      // To display the elements
-      if (galleryModal !== null) {
-        // Manipulez le contenu de l'élément ici en toute sécurité
-        galleryModal.appendChild(figureElement);
-
-      }
-      figureElement.appendChild(imageElement);
-      figureElement.appendChild(iconTrashCan);
-      figureElement.appendChild(paragraphElement);
-
-      iconTrashCan.addEventListener("click", function () {
-        deleteProject(data[i].id);
-        figureElement.remove(data[i]);
-        console.log(data)
-      });
-      
-    }
-    
   });
 }
 
-// Close modal
-
+// Close modal with buttons html
 function CloseModal() {
   const btnCloseModal = document.querySelectorAll(".close-modal");
-  
+
   btnCloseModal.forEach((btnClose) => {
     btnClose.addEventListener("click", function () {
       removeClassModal();
     });
   });
 }
-CloseModal()
+CloseModal();
 
 // To add the active class to open the modal
-
 export function addClassModal() {
   const modalContainer = document.querySelector(".modal-container");
   modalContainer.classList.add("active");
@@ -123,12 +67,29 @@ export function addClassModal() {
 }
 
 // To remove the active class to close the modal
-
 function removeClassModal() {
   const modalContainer = document.querySelector(".modal-container");
   modalContainer.classList.remove("active");
   const body = document.querySelector("body");
   body.classList.remove("modal-open");
+}
+
+// Delete projects
+function deleteProject(id) {
+  fetch(`${baseUrl}works/` + id, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((response) => {
+    if (response.ok) {
+      refreshGallery();
+      refreshGalleryModal();
+    } else {
+      console.log("erreur lors de la supppresion.");
+    }
+  });
 }
 
 // Adding a new project from modal
@@ -144,15 +105,15 @@ export function addNewProjectFromModal() {
   const divElement = document.createElement("div");
   divElement.classList.add("rectangle-modal");
 
-  const iconArrowElement = document.createElement("i");
-  iconArrowElement.classList.add("fa-solid", "fa-regular", "fa-arrow-left");
-  iconArrowElement.style.color = "black";
+  const iconArrowLeft = document.createElement("i");
+  iconArrowLeft.classList.add("fa-solid", "fa-regular", "fa-arrow-left");
+  iconArrowLeft.style.color = "black";
 
   // Click on the back arrow
-  iconArrowElement.addEventListener("click", function () {
+  iconArrowLeft.addEventListener("click", function () {
     modalBack();
-    refreshGaleryModalBack();
-    clickBtnAddPhoto();
+    refreshGalleryModal();
+    ClickBtnAddPhotoModal();
     CloseModal();
     createErrorImage = false;
     createErrorTitle = false;
@@ -163,16 +124,16 @@ export function addNewProjectFromModal() {
 
   const divBtn = document.createElement("div");
   divBtn.classList.add("div-btn");
-  const btnAddPhoto = document.createElement("button");
-  btnAddPhoto.innerText = "+ Ajouter photo";
-  btnAddPhoto.classList.add("btn-add");
+  const btnAddPhotoModal = document.createElement("button");
+  btnAddPhotoModal.innerText = "+ Ajouter photo";
+  btnAddPhotoModal.classList.add("btn-add");
   const inputFile = document.createElement("input");
   inputFile.setAttribute("type", "file");
   inputFile.setAttribute("name", "imageUrl");
   inputFile.id = "imageUrl";
   inputFile.style.display = "none";
 
-  btnAddPhoto.addEventListener("click", () => {
+  btnAddPhotoModal.addEventListener("click", () => {
     inputFile.click();
   });
 
@@ -183,7 +144,6 @@ export function addNewProjectFromModal() {
   imageSelectedElement.classList.add("image-selected-element");
   divImageElement.appendChild(imageSelectedElement);
 
-  function imageSelected() {
     inputFile.addEventListener("change", () => {
       const selectedFile = inputFile.files[0];
       const reader = new FileReader();
@@ -199,8 +159,6 @@ export function addNewProjectFromModal() {
       divBtn.remove("div");
       paragraphElement.remove("p");
     });
-  }
-  imageSelected();
 
   const paragraphElement = document.createElement("p");
   paragraphElement.innerText = "jpg, png : 4mo max";
@@ -225,11 +183,11 @@ export function addNewProjectFromModal() {
   const footerModal = document.querySelector(".footer_modal");
   footerModal.remove("div");
 
-  contentModal.appendChild(iconArrowElement);
+  contentModal.appendChild(iconArrowLeft);
   gridModal.appendChild(divElement);
   divElement.appendChild(iconImageElement);
   divElement.appendChild(divBtn);
-  divBtn.appendChild(btnAddPhoto);
+  divBtn.appendChild(btnAddPhotoModal);
   divBtn.appendChild(inputFile);
   divElement.appendChild(paragraphElement);
   divForm.innerHTML = formHTML;
@@ -237,6 +195,7 @@ export function addNewProjectFromModal() {
 
   const formAddNewProject = document.getElementById("form-add-project");
 
+// Create form data for the form
   function formDataProject() {
     const formData = new FormData();
     const titleForm = formAddNewProject.elements["title"].value;
@@ -263,38 +222,35 @@ export function addNewProjectFromModal() {
     }).then((response) => {
       if (response.ok) {
         console.log("Projet validé et envoyé !");
-        refreshGaleryModalBack()
-        refreshGallery()
+        refreshGalleryModal();
+        refreshGallery();
       } else {
         console.log("erreur lors de l'envoi.");
       }
     });
   }
 
+  // Check if it's ok before sending the form
   function checkInput() {
     let imageOK = false;
     let titleOK = false;
     const titleForm = formAddNewProject.elements["title"].value;
-    
+
     const selectedFile = inputFile.files;
 
     if (selectedFile.length > 0) {
       imageOK = true;
     }
-    
+
     if (titleForm !== "") {
       titleOK = true;
-
     }
     if (imageOK && titleOK === true) {
       fetchFormNewProject();
-
     } else {
-      
-      if (!imageOK ) {
+      if (!imageOK) {
         createErrorForImage();
-        
-      } 
+      }
 
       if (!titleOK) {
         createErrorForTitle();
@@ -302,11 +258,8 @@ export function addNewProjectFromModal() {
     }
   }
 
-
   function createErrorForTitle() {
-    
-    if(createErrorTitle === false) {
-      
+    if (createErrorTitle === false) {
       const divError = document.querySelector(".errorMessageForm");
       const errorMessage = document.createElement("span");
       errorMessage.innerText = "Veuillez renseigner un titre";
@@ -315,14 +268,10 @@ export function addNewProjectFromModal() {
       }
       createErrorTitle = true;
     }
-
-    
   }
 
   function createErrorForImage() {
-    
-    if(createErrorImage === false) {
-      
+    if (createErrorImage === false) {
       const divErrorInput = document.createElement("div");
       divErrorInput.classList.add("error-form-input");
       const ErrorMessageInput = document.createElement("span");
@@ -330,14 +279,10 @@ export function addNewProjectFromModal() {
       divElement.appendChild(divErrorInput);
       divErrorInput.appendChild(ErrorMessageInput);
       createErrorImage = true;
-    } else {
-      
     }
-    
   }
 
-
-  function changeColorBtnForm() {
+  function changeColorSubmitForm() {
     let conditionImage = false;
     let conditionTitle = false;
 
@@ -369,15 +314,16 @@ export function addNewProjectFromModal() {
       }
     });
   }
-  changeColorBtnForm();
+  changeColorSubmitForm();
 
-  
+  // Sends the form on click
   formAddNewProject.addEventListener("submit", function (event) {
     event.preventDefault();
     checkInput();
   });
 }
 
+// When I click on the back arrow
 export function modalBack() {
   const modal = document.querySelector(".modal");
 
@@ -396,6 +342,7 @@ export function modalBack() {
   </div>`;
 }
 
+// Generates categories in the form
 async function fetchCategory() {
   try {
     const category = await fetch(`${baseUrl}categories`);
@@ -415,30 +362,58 @@ async function fetchCategory() {
 }
 
 // Click on the button to generate the modal page + api call
-function clickBtnAddPhoto() {
-  const btnAddPhoto = document.querySelector(".btn-add-photo");
+function ClickBtnAddPhotoModal() {
+  const btnAddPhotoModal = document.querySelector(".btn-add-photo");
 
-  btnAddPhoto.addEventListener("click", () => {
+  btnAddPhotoModal.addEventListener("click", () => {
     addNewProjectFromModal();
     fetchCategory();
   });
 }
-clickBtnAddPhoto();
+ClickBtnAddPhotoModal();
 
-export function deleteProject(id) {
-  fetch(`${baseUrl}works/` + id, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  }).then((response) => {
-    if (response.ok) {
-      console.log("Suppresion validé !");
-      refreshGallery()
-      refreshGaleryModalBack()
-    } else {
-      console.log("erreur lors de la supppresion.");
+// Refreshes the modal after action
+function refreshGalleryModal() {
+  getWorks().then((data) => {
+    const galleryModal = document.querySelector(".gallery_modal");
+
+    if (galleryModal !== null) {
+      // Manipulez le contenu de l'élément ici en toute sécurité
+      galleryModal.innerHTML = "";
+    }
+    // Browse the table data
+    for (let i = 0; i < data.length; i++) {
+      // Creation of figure
+      const figureElement = document.createElement("figure");
+      figureElement.classList.add("figure-modal");
+      figureElement.id = data[i].id;
+
+      // Creation of img
+      const imageElement = document.createElement("img");
+      imageElement.classList.add("img-galery");
+      imageElement.src = data[i].imageUrl;
+
+      const iconTrashCan = document.createElement("i");
+      iconTrashCan.classList.add("fa-solid", "fa-trash-can");
+
+      // Creation of title
+      const paragraphElement = document.createElement("p");
+      paragraphElement.innerText = "éditer";
+
+      // To display the elements
+      if (galleryModal !== null) {
+        // Manipulez le contenu de l'élément ici en toute sécurité
+        galleryModal.appendChild(figureElement);
+      }
+      figureElement.appendChild(imageElement);
+      figureElement.appendChild(iconTrashCan);
+      figureElement.appendChild(paragraphElement);
+
+      iconTrashCan.addEventListener("click", function () {
+        deleteProject(data[i].id);
+        figureElement.remove(data[i]);
+        console.log(data);
+      });
     }
   });
 }

@@ -18,9 +18,7 @@ export async function getWorks(data) {
 getWorksResult = getWorks();
 export { getWorksResult };
 
-
 getWorksResult.then((data) => {
-  // Recovery class gallery
   const gallery = document.querySelector(".gallery");
   const btnTous = document.querySelector(".btn-tous");
   const btnObjets = document.querySelector(".btn-objets");
@@ -30,7 +28,6 @@ getWorksResult.then((data) => {
   function generateGallery(data) {
     gallery.innerHTML = "";
 
-    // Browse the table data
     for (let i = 0; i < data.length; i++) {
       // Creation of figure
       const figureElement = document.createElement("figure");
@@ -47,19 +44,15 @@ getWorksResult.then((data) => {
       gallery.appendChild(figureElement);
       figureElement.appendChild(imageElement);
       figureElement.appendChild(titleElement);
-
-      
     }
-
-
   }
   generateGallery(data);
 
+  // function to filter elements
   function filterElement(categoryName) {
     const filterElement = data.filter(
       (obj) => obj.category.name === categoryName
     );
-    console.log(filterElement);
     gallery.innerHTML = "";
     generateGallery(filterElement);
   }
@@ -81,16 +74,11 @@ getWorksResult.then((data) => {
   });
 });
 
-
-// For modal
+// retrieves the gallery for modal
 getWorksResult.then((data) => {
   // Function to generate the modal gallery (from modal.js)
   generateGaleryModal(data);
-
 });
-
-
-// Peut être ajouter les deux fonction dans "login" et de les exporter ici ?
 
 // change for connect
 function userLogin() {
@@ -106,10 +94,7 @@ function userLogin() {
 }
 userLogin();
 
-
-// Peut être ajouter les deux fonction dans "login" et de les exporter ici ?
-
-// change for disconnect
+// change for disconnect with button "logout"
 function logout() {
   let login = document.querySelector(".login");
   login.addEventListener("click", () => {
@@ -125,9 +110,8 @@ function logout() {
 }
 logout();
 
-// adding "modifier"
+// Add edit buttons when logged in
 function createEdit() {
-  // Recovering classes
   const parentEdit = document.querySelectorAll(".parent-edit");
 
   for (let i = 0; i < parentEdit.length; i++) {
@@ -159,50 +143,36 @@ function createEdit() {
   divElement.appendChild(iconElement);
   divElement.appendChild(paragraphElement);
 
+  const btnOpenModal = document.querySelector(".btn-open-modal");
+
+  btnOpenModal.addEventListener("click", () => {
+    addClassModal();
+  });
 }
 
-// OPEN MODALE
-
-//Il y a une erreur quand je me déconnecte car il ne détecte plus. Peut être faire une condition quand je me connecte, d'activer, désactiver la fonction ?
-
-const btnOpenModal = document.querySelector('.btn-open-modal');
-
-btnOpenModal.addEventListener('click', () => {
-  addClassModal()
-})
-
+// Refresh the gallery
 export function refreshGallery() {
   getWorks().then((data) => {
     const gallery = document.querySelector(".gallery");
 
-    gallery.innerHTML="";
-      // Browse the table data
-      for (let i = 0; i < data.length; i++) {
-        // Creation of figure
-        const figureElement = document.createElement("figure");
-  
-        // Creation of img
-        const imageElement = document.createElement("img");
-        imageElement.src = data[i].imageUrl;
-  
-        // Creation of title
-        const titleElement = document.createElement("figcaption");
-        titleElement.innerText = data[i].title;
-  
-        // To display the elements
-        gallery.appendChild(figureElement);
-        figureElement.appendChild(imageElement);
-        figureElement.appendChild(titleElement);
-      }
-    
-  })
+    gallery.innerHTML = "";
+    // Browse the table data
+    for (let i = 0; i < data.length; i++) {
+      // Creation of figure
+      const figureElement = document.createElement("figure");
+
+      // Creation of img
+      const imageElement = document.createElement("img");
+      imageElement.src = data[i].imageUrl;
+
+      // Creation of title
+      const titleElement = document.createElement("figcaption");
+      titleElement.innerText = data[i].title;
+
+      // To display the elements
+      gallery.appendChild(figureElement);
+      figureElement.appendChild(imageElement);
+      figureElement.appendChild(titleElement);
+    }
+  });
 }
-
-
-
-
-
-
-
-
-
