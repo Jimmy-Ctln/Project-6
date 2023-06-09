@@ -4,8 +4,8 @@ import { baseUrl } from "./urlApi.js";
 import { refreshGallery } from "./script.js";
 
 const token = sessionStorage.getItem("token");
-// console.log(`Bearer ${token}`)
-// Function to generate the modal gallery on the main page
+let createErrorImage = false
+let createErrorTitle = false;
 
 export function generateGaleryModal() {
   getWorksResult.then((data) => {
@@ -48,14 +48,18 @@ export function generateGaleryModal() {
 
     }
   });
+  
 }
 
 
 function refreshGaleryModalBack() {
   getWorks().then((data) => {
     const galleryModal = document.querySelector(".gallery_modal");
-    console.log(data)
-    galleryModal.innerHTML="";
+    
+    if (galleryModal !== null) {
+      // Manipulez le contenu de l'élément ici en toute sécurité
+      galleryModal.innerHTML = "";
+    }
     // Browse the table data
     for (let i = 0; i < data.length; i++) {
       // Creation of figure
@@ -76,7 +80,11 @@ function refreshGaleryModalBack() {
       paragraphElement.innerText = "éditer";
 
       // To display the elements
-      galleryModal.appendChild(figureElement);
+      if (galleryModal !== null) {
+        // Manipulez le contenu de l'élément ici en toute sécurité
+        galleryModal.appendChild(figureElement);
+
+      }
       figureElement.appendChild(imageElement);
       figureElement.appendChild(iconTrashCan);
       figureElement.appendChild(paragraphElement);
@@ -146,6 +154,8 @@ export function addNewProjectFromModal() {
     refreshGaleryModalBack();
     clickBtnAddPhoto();
     CloseModal();
+    createErrorImage = false;
+    createErrorTitle = false;
   });
 
   const iconImageElement = document.createElement("i");
@@ -262,32 +272,70 @@ export function addNewProjectFromModal() {
   }
 
   function checkInput() {
-    let conditionImage = false;
-    let conditionTitle = false;
+    let imageOK = false;
+    let titleOK = false;
     const titleForm = formAddNewProject.elements["title"].value;
     
     const selectedFile = inputFile.files;
 
     if (selectedFile.length > 0) {
-      conditionImage = true;
+      imageOK = true;
     }
     
     if (titleForm !== "") {
-      conditionTitle = true;
+      titleOK = true;
+
     }
-    if (conditionImage && conditionTitle === true) {
+    if (imageOK && titleOK === true) {
       fetchFormNewProject();
+
     } else {
       
-      if (!conditionImage ) {
-        createErrorForImage(true);
+      if (!imageOK ) {
+        createErrorForImage();
+        
       } 
 
-      if (!conditionTitle) {
-        CreateErrorForTitle();
+      if (!titleOK) {
+        createErrorForTitle();
       }
     }
   }
+
+
+  function createErrorForTitle() {
+    
+    if(createErrorTitle === false) {
+      
+      const divError = document.querySelector(".errorMessageForm");
+      const errorMessage = document.createElement("span");
+      errorMessage.innerText = "Veuillez renseigner un titre";
+      if (divError !== null) {
+        divError.appendChild(errorMessage);
+      }
+      createErrorTitle = true;
+    }
+
+    
+  }
+
+  function createErrorForImage() {
+    
+    if(createErrorImage === false) {
+      
+      const divErrorInput = document.createElement("div");
+      divErrorInput.classList.add("error-form-input");
+      const ErrorMessageInput = document.createElement("span");
+      ErrorMessageInput.innerText = "Veuillez sélectionner une image";
+      divElement.appendChild(divErrorInput);
+      divErrorInput.appendChild(ErrorMessageInput);
+      createErrorImage = true;
+    } else {
+      
+    }
+    
+  }
+
 
   function changeColorBtnForm() {
     let conditionImage = false;
@@ -323,24 +371,7 @@ export function addNewProjectFromModal() {
   }
   changeColorBtnForm();
 
-  function CreateErrorForTitle() {
-    const divError = document.querySelector(".errorMessageForm");
-    const errorMessage = document.createElement("span");
-    errorMessage.innerText = "Veuillez renseigner un titre";
-    divError.appendChild(errorMessage);
-  }
-
-  function createErrorForImage() {
-    
-      const divErrorInput = document.createElement("div");
-      divErrorInput.classList.add("error-form-input");
-      const ErrorMessageInput = document.createElement("span");
-      ErrorMessageInput.innerText = "Veuillez sélectionner une image";
-      divElement.appendChild(divErrorInput);
-      divErrorInput.appendChild(ErrorMessageInput);  
-    
-  }
-
+  
   formAddNewProject.addEventListener("submit", function (event) {
     event.preventDefault();
     checkInput();
