@@ -1,3 +1,4 @@
+export { getWorksResult };
 import { generateGaleryModal } from "./modal.js";
 import { addClassModal } from "./modal.js";
 import { baseUrl } from "./urlApi.js";
@@ -16,7 +17,7 @@ export async function getWorks(data) {
 }
 
 getWorksResult = getWorks();
-export { getWorksResult };
+
 
 getWorksResult.then((data) => {
   const gallery = document.querySelector(".gallery");

@@ -25,8 +25,8 @@ export function generateGaleryModal() {
       imageElement.classList.add("img-galery");
       imageElement.src = data[i].imageUrl;
 
-      const iconElement = document.createElement("i");
-      iconElement.classList.add("fa-solid", "fa-trash-can");
+      const iconTrashElement = document.createElement("i");
+      iconTrashElement.classList.add("fa-solid", "fa-trash-can");
 
       // Creation of title
       const paragraphElement = document.createElement("p");
@@ -35,10 +35,10 @@ export function generateGaleryModal() {
       // To display the elements
       galleryModal.appendChild(figureElement);
       figureElement.appendChild(imageElement);
-      figureElement.appendChild(iconElement);
+      figureElement.appendChild(iconTrashElement);
       figureElement.appendChild(paragraphElement);
 
-      iconElement.addEventListener("click", function () {
+      iconTrashElement.addEventListener("click", function () {
         deleteProject(data[i].id);
         figureElement.remove(data[i]);
       });
@@ -122,6 +122,7 @@ export function addNewProjectFromModal() {
   const iconImageElement = document.createElement("i");
   iconImageElement.classList.add("fa-regular", "fa-image", "icon-image");
 
+
   const divBtn = document.createElement("div");
   divBtn.classList.add("div-btn");
   const btnAddPhotoModal = document.createElement("button");
@@ -155,44 +156,47 @@ export function addNewProjectFromModal() {
 
       reader.readAsDataURL(selectedFile);
 
-      iconImageElement.remove("i");
-      divBtn.remove("div");
-      paragraphElement.remove("p");
+      iconImageElement.style.display='none';
+      divBtn.style.display='none';
+      paragraphElement.style.display='none';
     });
 
   const paragraphElement = document.createElement("p");
   paragraphElement.innerText = "jpg, png : 4mo max";
   paragraphElement.classList.add("supported-format");
 
-  const divForm = document.createElement("div");
-  divForm.classList.add("positioning-form");
-  const formHTML = `
-    <form id="form-add-project" action="#" method="post">
-        <label for="title">Titre</label>
-        <input class="bloc-form" type="text" name="title" id="title-form">
-        <div class="errorMessageForm"></div>
-        
-        <label class="category" for="Category">Catégorie</label>
-        <select class="bloc-form" id="category-api" name="categoryId"></select>
 
-        
-        <input class="confirm-btn" type="submit" value="Valider">
+    const divForm = document.createElement("div");
+    divForm.classList.add("positioning-form");
+    const formHTML = `
+    <form id="form-add-project" action="#" method="post">
+    <label for="title">Titre</label>
+    <input class="bloc-form" type="text" name="title" id="title-form">
+    <div class="errorMessageForm"></div>
+    
+    <label class="category" for="Category">Catégorie</label>
+    <select class="bloc-form" id="category-api" name="categoryId"></select>
+    
+    
+    <input class="confirm-btn" type="submit" value="Valider">
     </form>
     `;
+    
+    const footerModal = document.querySelector(".footer_modal");
+    footerModal.remove("div");
+    
+    contentModal.appendChild(iconArrowLeft);
+    gridModal.appendChild(divElement);
+    divElement.appendChild(iconImageElement);
+    divElement.appendChild(divBtn);
+    divBtn.appendChild(btnAddPhotoModal);
+    divBtn.appendChild(inputFile);
+    divElement.appendChild(paragraphElement);
+    divForm.innerHTML = formHTML;
+    modal.appendChild(divForm);
+    
 
-  const footerModal = document.querySelector(".footer_modal");
-  footerModal.remove("div");
-
-  contentModal.appendChild(iconArrowLeft);
-  gridModal.appendChild(divElement);
-  divElement.appendChild(iconImageElement);
-  divElement.appendChild(divBtn);
-  divBtn.appendChild(btnAddPhotoModal);
-  divBtn.appendChild(inputFile);
-  divElement.appendChild(paragraphElement);
-  divForm.innerHTML = formHTML;
-  modal.appendChild(divForm);
-
+    
   const formAddNewProject = document.getElementById("form-add-project");
 
 // Create form data for the form
@@ -224,6 +228,7 @@ export function addNewProjectFromModal() {
         console.log("Projet validé et envoyé !");
         refreshGalleryModal();
         refreshGallery();
+        resetForm()
       } else {
         console.log("erreur lors de l'envoi.");
       }
@@ -321,6 +326,18 @@ export function addNewProjectFromModal() {
     event.preventDefault();
     checkInput();
   });
+
+  function resetForm() {
+    removeClassModal()
+    modalBack()
+    // formAddNewProject.reset()
+    createErrorImage = false;
+    createErrorTitle = false;
+    addNewProjectFromModal()
+    CloseModal()
+    fetchCategory()
+  }
+
 }
 
 // When I click on the back arrow
@@ -412,8 +429,8 @@ function refreshGalleryModal() {
       iconTrashCan.addEventListener("click", function () {
         deleteProject(data[i].id);
         figureElement.remove(data[i]);
-        console.log(data);
       });
     }
   });
 }
+

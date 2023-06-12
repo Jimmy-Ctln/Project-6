@@ -543,7 +543,8 @@ a:hover {
 
 #edit0:hover,
 #edit1:hover,
-#edit2:hover {
+#edit2:hover,
+.confirm-btn {
   cursor: pointer;
 }
 
