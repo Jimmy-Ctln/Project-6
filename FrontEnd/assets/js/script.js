@@ -5,9 +5,10 @@ import { baseUrl } from "./urlApi.js";
 let getWorksResult = null;
 
 // create a fetch function for works
-export async function getWorks(data) {
+export async function getWorks() {
   try {
     // Recovery of the api
+    let data;
     const fetchWorks = await fetch(`${baseUrl}works`);
     data = await fetchWorks.json();
     return data;

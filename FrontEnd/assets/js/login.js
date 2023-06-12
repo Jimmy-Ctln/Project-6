@@ -10,12 +10,6 @@ function retrieveFormContent() {
   userForm.password = password;
 }
 
-// Click on submit to send the form content
-formLog.addEventListener("submit", function (event) {
-    event.preventDefault();
-    retrieveFormContent();
-    fetchUsers();
-  });
 
 // Sends a request in post
 function fetchUsers() {
@@ -39,6 +33,13 @@ function fetchUsers() {
     }
   });
 }
+
+// Click on submit to send the form content
+formLog.addEventListener("submit", function (event) {
+  event.preventDefault();
+  retrieveFormContent();
+  fetchUsers();
+});
 
 // To display error messages
 function connectionError() {

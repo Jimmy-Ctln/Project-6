@@ -235,6 +235,12 @@ export function addNewProjectFromModal() {
     });
   }
 
+   // Sends the form on click
+   formAddNewProject.addEventListener("submit", function (event) {
+    event.preventDefault();
+    checkInput();
+  });
+
   // Check if it's ok before sending the form
   function checkInput() {
     let imageOK = false;
@@ -252,6 +258,7 @@ export function addNewProjectFromModal() {
     }
     if (imageOK && titleOK === true) {
       fetchFormNewProject();
+      
     } else {
       if (!imageOK) {
         createErrorForImage();
@@ -321,16 +328,10 @@ export function addNewProjectFromModal() {
   }
   changeColorSubmitForm();
 
-  // Sends the form on click
-  formAddNewProject.addEventListener("submit", function (event) {
-    event.preventDefault();
-    checkInput();
-  });
 
   function resetForm() {
     removeClassModal()
     modalBack()
-    // formAddNewProject.reset()
     createErrorImage = false;
     createErrorTitle = false;
     addNewProjectFromModal()
