@@ -7,7 +7,6 @@ const token = sessionStorage.getItem("token");
 let createErrorImage = false;
 let createErrorTitle = false;
 
-
 // To generate the modal gallery
 export function generateGaleryModal() {
   getWorksResult.then((data) => {
@@ -110,61 +109,67 @@ export function addNewProjectFromModal() {
   iconArrowLeft.style.color = "black";
 
   // Click on the back arrow
-  iconArrowLeft.addEventListener("click", function () {
-    modalBack();
-    refreshGalleryModal();
-    ClickBtnAddPhotoModal();
-    CloseModal();
-    createErrorImage = false;
-    createErrorTitle = false;
-  });
+  function clickArrowBack() {
+    iconArrowLeft.addEventListener("click", function () {
+      modalBack();
+      refreshGalleryModal();
+      ClickBtnAddPhotoModal();
+      CloseModal();
+      createErrorImage = false;
+      createErrorTitle = false;
+    });
+  }
+  clickArrowBack();
 
-  const iconImageElement = document.createElement("i");
-  iconImageElement.classList.add("fa-regular", "fa-image", "icon-image");
+  // Create a dynamic form
+  function createFormAddProject() {
+    const iconImageElement = document.createElement("i");
+    iconImageElement.classList.add("fa-regular", "fa-image", "icon-image");
 
+    const divBtn = document.createElement("div");
+    divBtn.classList.add("div-btn");
+    const btnAddPhotoModal = document.createElement("button");
+    btnAddPhotoModal.innerText = "+ Ajouter photo";
+    btnAddPhotoModal.classList.add("btn-add");
+    const inputFile = document.createElement("input");
+    inputFile.setAttribute("type", "file");
+    inputFile.setAttribute("name", "imageUrl");
+    inputFile.id = "imageUrl";
+    inputFile.style.display = "none";
 
-  const divBtn = document.createElement("div");
-  divBtn.classList.add("div-btn");
-  const btnAddPhotoModal = document.createElement("button");
-  btnAddPhotoModal.innerText = "+ Ajouter photo";
-  btnAddPhotoModal.classList.add("btn-add");
-  const inputFile = document.createElement("input");
-  inputFile.setAttribute("type", "file");
-  inputFile.setAttribute("name", "imageUrl");
-  inputFile.id = "imageUrl";
-  inputFile.style.display = "none";
-
-  btnAddPhotoModal.addEventListener("click", () => {
-    inputFile.click();
-  });
-
-  const divImageElement = document.createElement("div");
-  divImageElement.id = "selectedFile";
-  divElement.appendChild(divImageElement);
-  const imageSelectedElement = document.createElement("img");
-  imageSelectedElement.classList.add("image-selected-element");
-  divImageElement.appendChild(imageSelectedElement);
-
-    inputFile.addEventListener("change", () => {
-      const selectedFile = inputFile.files[0];
-      const reader = new FileReader();
-
-      reader.onload = function (event) {
-        const content = event.target.result;
-        imageSelectedElement.src = content;
-      };
-
-      reader.readAsDataURL(selectedFile);
-
-      iconImageElement.style.display='none';
-      divBtn.style.display='none';
-      paragraphElement.style.display='none';
+    btnAddPhotoModal.addEventListener("click", () => {
+      inputFile.click();
     });
 
-  const paragraphElement = document.createElement("p");
-  paragraphElement.innerText = "jpg, png : 4mo max";
-  paragraphElement.classList.add("supported-format");
+    const divImageElement = document.createElement("div");
+    divImageElement.id = "selectedFile";
+    divElement.appendChild(divImageElement);
+    const imageSelectedElement = document.createElement("img");
+    imageSelectedElement.classList.add("image-selected-element");
+    divImageElement.appendChild(imageSelectedElement);
 
+    function displayImage() {
+      inputFile.addEventListener("change", () => {
+        const selectedFile = inputFile.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function (event) {
+          const content = event.target.result;
+          imageSelectedElement.src = content;
+        };
+
+        reader.readAsDataURL(selectedFile);
+
+        iconImageElement.style.display = "none";
+        divBtn.style.display = "none";
+        paragraphElement.style.display = "none";
+      });
+    }
+    displayImage();
+
+    const paragraphElement = document.createElement("p");
+    paragraphElement.innerText = "jpg, png : 4mo max";
+    paragraphElement.classList.add("supported-format");
 
     const divForm = document.createElement("div");
     divForm.classList.add("positioning-form");
@@ -181,10 +186,10 @@ export function addNewProjectFromModal() {
     <input class="confirm-btn" type="submit" value="Valider">
     </form>
     `;
-    
+
     const footerModal = document.querySelector(".footer_modal");
     footerModal.remove("div");
-    
+
     contentModal.appendChild(iconArrowLeft);
     gridModal.appendChild(divElement);
     divElement.appendChild(iconImageElement);
@@ -194,12 +199,13 @@ export function addNewProjectFromModal() {
     divElement.appendChild(paragraphElement);
     divForm.innerHTML = formHTML;
     modal.appendChild(divForm);
-    
+  }
+  createFormAddProject();
 
-    
   const formAddNewProject = document.getElementById("form-add-project");
+  const inputFile = document.getElementById("imageUrl");
 
-// Create form data for the form
+  // Create form data for the form
   function formDataProject() {
     const formData = new FormData();
     const titleForm = formAddNewProject.elements["title"].value;
@@ -228,15 +234,15 @@ export function addNewProjectFromModal() {
         console.log("Projet validé et envoyé !");
         refreshGalleryModal();
         refreshGallery();
-        resetForm()
+        resetForm();
       } else {
         console.log("erreur lors de l'envoi.");
       }
     });
   }
 
-   // Sends the form on click
-   formAddNewProject.addEventListener("submit", function (event) {
+  // Sends the form on click
+  formAddNewProject.addEventListener("submit", function (event) {
     event.preventDefault();
     checkInput();
   });
@@ -246,7 +252,6 @@ export function addNewProjectFromModal() {
     let imageOK = false;
     let titleOK = false;
     const titleForm = formAddNewProject.elements["title"].value;
-
     const selectedFile = inputFile.files;
 
     if (selectedFile.length > 0) {
@@ -258,7 +263,6 @@ export function addNewProjectFromModal() {
     }
     if (imageOK && titleOK === true) {
       fetchFormNewProject();
-      
     } else {
       if (!imageOK) {
         createErrorForImage();
@@ -328,17 +332,15 @@ export function addNewProjectFromModal() {
   }
   changeColorSubmitForm();
 
-
   function resetForm() {
-    removeClassModal()
-    modalBack()
+    removeClassModal();
+    modalBack();
     createErrorImage = false;
     createErrorTitle = false;
-    addNewProjectFromModal()
-    CloseModal()
-    fetchCategory()
+    addNewProjectFromModal();
+    CloseModal();
+    fetchCategory();
   }
-
 }
 
 // When I click on the back arrow
@@ -434,4 +436,3 @@ function refreshGalleryModal() {
     }
   });
 }
-
