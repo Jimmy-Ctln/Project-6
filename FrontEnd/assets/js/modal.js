@@ -1,4 +1,3 @@
-import { getWorksResult } from "./script.js";
 import { getWorks } from "./script.js";
 import { baseUrl } from "./urlApi.js";
 import { refreshGallery } from "./script.js";
@@ -7,43 +6,7 @@ const token = sessionStorage.getItem("token");
 let createErrorImage = false;
 let createErrorTitle = false;
 
-// To generate the modal gallery
-export function generateGaleryModal() {
-  getWorksResult.then((data) => {
-    const galleryModal = document.querySelector(".gallery_modal");
 
-    // Browse the table data
-    for (let i = 0; i < data.length; i++) {
-      // Creation of figure
-      const figureElement = document.createElement("figure");
-      figureElement.classList.add("figure-modal");
-      figureElement.id = data[i].id;
-
-      // Creation of img
-      const imageElement = document.createElement("img");
-      imageElement.classList.add("img-galery");
-      imageElement.src = data[i].imageUrl;
-
-      const iconTrashElement = document.createElement("i");
-      iconTrashElement.classList.add("fa-solid", "fa-trash-can");
-
-      // Creation of title
-      const paragraphElement = document.createElement("p");
-      paragraphElement.innerText = "éditer";
-
-      // To display the elements
-      galleryModal.appendChild(figureElement);
-      figureElement.appendChild(imageElement);
-      figureElement.appendChild(iconTrashElement);
-      figureElement.appendChild(paragraphElement);
-
-      iconTrashElement.addEventListener("click", function () {
-        deleteProject(data[i].id);
-        figureElement.remove(data[i]);
-      });
-    }
-  });
-}
 
 // Close modal with buttons html
 function CloseModal() {
@@ -84,7 +47,6 @@ function deleteProject(id) {
   }).then((response) => {
     if (response.ok) {
       refreshGallery();
-      refreshGalleryModal();
     } else {
       console.log("erreur lors de la supppresion.");
     }
@@ -232,7 +194,6 @@ export function addNewProjectFromModal() {
     }).then((response) => {
       if (response.ok) {
         console.log("Projet validé et envoyé !");
-        refreshGalleryModal();
         refreshGallery();
         resetForm();
       } else {
@@ -394,13 +355,16 @@ ClickBtnAddPhotoModal();
 
 // Refreshes the modal after action
 function refreshGalleryModal() {
-  getWorks().then((data) => {
-    const galleryModal = document.querySelector(".gallery_modal");
+  getWorks().then(generateGalleryModal)
+}
 
-    if (galleryModal !== null) {
-      // Manipulez le contenu de l'élément ici en toute sécurité
-      galleryModal.innerHTML = "";
-    }
+// To generate the modal gallery
+export function generateGalleryModal(data) {
+  
+    const galleryModal = document.querySelector(".gallery_modal");
+    
+    galleryModal.innerHTML = "";
+    
     // Browse the table data
     for (let i = 0; i < data.length; i++) {
       // Creation of figure
@@ -413,26 +377,22 @@ function refreshGalleryModal() {
       imageElement.classList.add("img-galery");
       imageElement.src = data[i].imageUrl;
 
-      const iconTrashCan = document.createElement("i");
-      iconTrashCan.classList.add("fa-solid", "fa-trash-can");
+      const iconTrashElement = document.createElement("i");
+      iconTrashElement.classList.add("fa-solid", "fa-trash-can");
 
       // Creation of title
       const paragraphElement = document.createElement("p");
       paragraphElement.innerText = "éditer";
 
       // To display the elements
-      if (galleryModal !== null) {
-        // Manipulez le contenu de l'élément ici en toute sécurité
-        galleryModal.appendChild(figureElement);
-      }
+      galleryModal.appendChild(figureElement);
       figureElement.appendChild(imageElement);
-      figureElement.appendChild(iconTrashCan);
+      figureElement.appendChild(iconTrashElement);
       figureElement.appendChild(paragraphElement);
 
-      iconTrashCan.addEventListener("click", function () {
+      iconTrashElement.addEventListener("click", function () {
         deleteProject(data[i].id);
         figureElement.remove(data[i]);
       });
     }
-  });
 }
