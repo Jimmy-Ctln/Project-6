@@ -173,27 +173,5 @@ function generateGallery(data) {
 
 // Refresh the gallery
 export function refreshGallery() {
-  getWorks().then((data) => {
-    const gallery = document.querySelector(".gallery");
-
-    gallery.innerHTML = "";
-    // Browse the table data
-    for (let i = 0; i < data.length; i++) {
-      // Creation of figure
-      const figureElement = document.createElement("figure");
-
-      // Creation of img
-      const imageElement = document.createElement("img");
-      imageElement.src = data[i].imageUrl;
-
-      // Creation of title
-      const titleElement = document.createElement("figcaption");
-      titleElement.innerText = data[i].title;
-
-      // To display the elements
-      gallery.appendChild(figureElement);
-      figureElement.appendChild(imageElement);
-      figureElement.appendChild(titleElement);
-    }
-  });
+  getWorks().then(generateGallery);
 }
