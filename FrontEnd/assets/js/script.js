@@ -1,5 +1,4 @@
-export { getWorksResult };
-import { generateGaleryModal } from "./modal.js";
+import { generateGalleryModal } from "./modal.js";
 import { addClassModal } from "./modal.js";
 import { baseUrl } from "./urlApi.js";
 let getWorksResult = null;
@@ -19,38 +18,20 @@ export async function getWorks() {
 
 getWorksResult = getWorks();
 
-
 getWorksResult.then((data) => {
+ 
+  // to generate the gallery and galleryModal
+  generateGallery(data);
+  generateGalleryModal(data);
+
   const gallery = document.querySelector(".gallery");
   const btnTous = document.querySelector(".btn-tous");
-  const btnObjets = document.querySelector(".btn-objets");
-  const btnAppartements = document.querySelector(".btn-appartements");
-  const bntHotelsEtRestaurants = document.querySelector(".btn-hotelsetrestaurants");
 
-  function generateGallery(data) {
-    gallery.innerHTML = "";
+  btnTous.addEventListener("click", () => {
+    generateGallery(data);
+  });
 
-    for (let i = 0; i < data.length; i++) {
-      // Creation of figure
-      const figureElement = document.createElement("figure");
-
-      // Creation of img
-      const imageElement = document.createElement("img");
-      imageElement.src = data[i].imageUrl;
-
-      // Creation of title
-      const titleElement = document.createElement("figcaption");
-      titleElement.innerText = data[i].title;
-
-      // To display the elements
-      gallery.appendChild(figureElement);
-      figureElement.appendChild(imageElement);
-      figureElement.appendChild(titleElement);
-    }
-  }
-  generateGallery(data);
-
-  // function to filter elements
+// function for filtering work
   function filterElement(categoryName) {
     const filterElement = data.filter(
       (obj) => obj.category.name === categoryName
@@ -58,28 +39,42 @@ getWorksResult.then((data) => {
     gallery.innerHTML = "";
     generateGallery(filterElement);
   }
+  
+  function fetchCategory() {
+    fetch(`${baseUrl}categories`)
+    .then(response => response.json())
+    .then(data => {
+      data.forEach((category) => {
 
-  btnTous.addEventListener("click", () => {
-    generateGallery(data);
-  });
+        const buttons = document.querySelector(".buttons");
+        const btn = document.createElement("button");
+        btn.id = category.name;
+        btn.textContent = category.name;
+        btn.classList.add("filter-btn");
+  
+        buttons.appendChild(btn);
+        
+      })
+      
+      const btnObjets = document.getElementById('Objets');
+      const btnAppartements = document.getElementById('Appartements');
+      const bntHotelsEtRestaurants = document.getElementById('Hotels & restaurants')
+      
+      btnObjets.addEventListener('click', () => {
+        filterElement('Objets')
+      })
+    
+      btnAppartements.addEventListener("click", () => {
+        filterElement("Appartements");
+      });
+    
+      bntHotelsEtRestaurants.addEventListener("click", () => {
+        filterElement("Hotels & restaurants");
+      });
 
-  btnObjets.addEventListener("click", () => {
-    filterElement("Objets");
-  });
-
-  btnAppartements.addEventListener("click", () => {
-    filterElement("Appartements");
-  });
-
-  bntHotelsEtRestaurants.addEventListener("click", () => {
-    filterElement("Hotels & restaurants");
-  });
-});
-
-// retrieves the gallery for modal
-getWorksResult.then((data) => {
-  // Function to generate the modal gallery (from modal.js)
-  generateGaleryModal(data);
+    })
+  }
+  fetchCategory()
 });
 
 // change for connect
@@ -150,6 +145,30 @@ function createEdit() {
   btnOpenModal.addEventListener("click", () => {
     addClassModal();
   });
+}
+
+function generateGallery(data) {
+  const gallery = document.querySelector(".gallery");
+
+  gallery.innerHTML = "";
+  // Browse the table data
+  for (let i = 0; i < data.length; i++) {
+    // Creation of figure
+    const figureElement = document.createElement("figure");
+
+    // Creation of img
+    const imageElement = document.createElement("img");
+    imageElement.src = data[i].imageUrl;
+
+    // Creation of title
+    const titleElement = document.createElement("figcaption");
+    titleElement.innerText = data[i].title;
+
+    // To display the elements
+    gallery.appendChild(figureElement);
+    figureElement.appendChild(imageElement);
+    figureElement.appendChild(titleElement);
+  }
 }
 
 // Refresh the gallery
